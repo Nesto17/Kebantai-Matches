@@ -11,33 +11,6 @@
 //         document.querySelector(".request-application").style.display = 'none';
 //     });
 
-
-const modalApplication = document.querySelectorAll(".display-request")
-for (var i = 0; i < modalApplication.length; i++) {
-    modalApplication[i].addEventListener('click',
-    function() {
-        document.querySelector(".modal-application").style.display = 'flex';
-    });
-}
-
-const modalReason = document.querySelectorAll(".display-delete");
-for (var i = 0; i < modalReason.length; i++) {
-    modalReason[i].addEventListener('click',
-    function() {
-        document.querySelector(".modal-reason").style.display = 'flex';
-    });
-}
-
-document.querySelector(".modal-close-application").addEventListener('click',
-function() {
-    document.querySelector(".modal-application").style.display = 'none';
-});
-
-document.querySelector(".modal-close-reason").addEventListener('click',
-function() {
-    document.querySelector(".modal-reason").style.display = 'none';
-});
-
 function toggleMenu() {
     var menuToggle = document.querySelector('.toggle');
     var navigation = document.querySelector('.navigation');
@@ -1132,3 +1105,37 @@ if (top_on_the_list < date_current) {
     console.log(date_current);
     console.log("it is larger");
 }
+
+let modalApplication = document.querySelectorAll(".display-request");
+for (var i = 0; i < modalApplication.length; i++) {
+    modalApplication[i].addEventListener('click',
+        function () {
+            document.querySelector(".modal-application").style.display = 'flex';
+        });
+}
+
+let modalReason = document.querySelectorAll(".display-delete");
+for (var i = 0; i < modalReason.length; i++) {
+    modalReason[i].addEventListener('click',
+        function () {
+            document.querySelector(".modal-reason").style.display = 'flex';
+        });
+}
+
+let text_area_application = document.querySelectorAll("#modal-textarea");
+
+document.querySelector(".modal-close-application").addEventListener('click',
+    function () {
+        document.querySelector(".modal-application").style.display = 'none';
+        text_area_application.forEach(text_area => {
+            text_area.value = "";
+        })
+    });
+
+document.querySelector(".modal-close-reason").addEventListener('click',
+    function () {
+        document.querySelector(".modal-reason").style.display = 'none';
+        text_area_application.forEach(text_area => {
+            text_area.value = "";
+        })
+    });
