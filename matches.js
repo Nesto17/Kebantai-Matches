@@ -90,20 +90,13 @@ function hour_check(date, time) {
     const current_month = new Date().getMonth();
     const current_date = new Date().getDate();
     let current_hour = new Date().getHours();
-    const current_minute = new Date().getMinutes();
 
     let calender_month = new Date(date).getMonth();
     let calender_date = new Date(date).getDate();
     const input_time = parseInt(time.slice(0, 2));
 
-    // TURN INTO NUMBER
-    if (current_minute > 0) {
-        current_hour += 1;
-    }
-    var hour_diff = input_time - current_hour;
-
     // CHECK HOUR
-    if (calender_month == current_month && calender_date == current_date && hour_diff < 3) {
+    if (calender_month == current_month && calender_date == current_date && input_time <= current_hour) {
         return false;
     } else {
         return true;
@@ -150,14 +143,25 @@ optionsListSex.forEach(o => {
     });
 })
 
+const options_box_region = document.getElementById("options_box_region");
+const optionsListRegion = options_box_region.querySelectorAll(".option");
+let region_value = "all region";
+optionsListRegion.forEach(o => {
+    o.addEventListener("click", () => {
+        region_value = o.querySelector("input").value;
+    });
+})
+
 const selected_sport = document.getElementById("selected_sport");
 const selected_time = document.getElementById("selected_time");
 const selected_date = document.getElementById("selected_date");
 const selected_sex = document.getElementById("selected_sex");
+const selected_region = document.getElementById("selected_region");
 
 selected_date.innerHTML = "All Date";
 selected_time.innerHTML = "All Time";
 selected_sex.innerHTML = "Anyone";
+selected_region.innerHTML = "All Region";
 
 selectedAll.forEach(selected => {
     const optionsContainer = selected.previousElementSibling;
@@ -208,41 +212,78 @@ selectedAll.forEach(selected => {
             selected.innerHTML = o.querySelector("label").innerHTML;
             optionsContainer.classList.remove("active");
             if (previous_word != o.querySelector("label").innerHTML) {
-                if (selected_date.innerHTML == "All Date") {
+                if (selected_date.innerHTML == "All Date" && selected_region.innerHTML == "All Region") {
                     var child = display_container.lastElementChild;
                     while (child) {
                         display_container.removeChild(child);
                         child = display_container.lastElementChild;
                     }
-                    // db.collection('match').where('sport', '==', sport_value).where('sex', '==', sex_value).orderBy("date").orderBy("time").onSnapshot(snapshot => {
-                    //     let changes = snapshot.docChanges();
-                    //     changes.forEach(change => {
-                    //         if (change.type == "added") {
-                    //             renderMatch(change.doc);
-                    //         } else if (change.type == "removed") {
-                    //             let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
-                    //             display_container.removeChild(li);
-                    //         }
-                    //     })
-                    // })
-                } else if (selected_date.innerHTML != "All Date" && selected_time.innerHTML == "All Time") {
+                    db.collection('match').where('sport', '==', sport_value).where('sex', '==', sex_value).orderBy("date").orderBy("time").onSnapshot(snapshot => {
+                        let changes = snapshot.docChanges();
+                        changes.forEach(change => {
+                            if (change.type == "added") {
+                                renderMatch3(change.doc.data());
+                            } else if (change.type == "removed") {
+                                let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
+                                display_container.removeChild(li);
+                            }
+                        })
+                    })
+                } else if (selected_date.innerHTML == "All Date" && selected_region.innerHTML != "All Region") {
                     var child = display_container.lastElementChild;
                     while (child) {
                         display_container.removeChild(child);
                         child = display_container.lastElementChild;
                     }
-                    // db.collection('match').where('sport', '==', sport_value).where('sex', '==', sex_value).where("date", "==", date_value).orderBy("time").onSnapshot(snapshot => {
-                    //     let changes = snapshot.docChanges();
-                    //     changes.forEach(change => {
-                    //         if (change.type == "added") {
-                    //             renderMatch(change.doc);
-                    //         } else if (change.type == "removed") {
-                    //             let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
-                    //             display_container.removeChild(li);
-                    //         }
-                    //     })
-                    // })
-                } else if (selected_date.innerHTML != "All Date" && selected_time.innerHTML != "All Time") {
+                    db.collection('match').where('sport', '==', sport_value).where('sex', '==', sex_value).where("region", '==', region_value).orderBy("date").orderBy("time").onSnapshot(snapshot => {
+                        let changes = snapshot.docChanges();
+                        changes.forEach(change => {
+                            if (change.type == "added") {
+                                renderMatch3(change.doc.data());
+                            } else if (change.type == "removed") {
+                                let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
+                                display_container.removeChild(li);
+                            }
+                        })
+                    })
+
+                } else if (selected_date.innerHTML != "All Date" && selected_time.innerHTML == "All Time" && selected_region.innerHTML == "All Region") {
+                    var child = display_container.lastElementChild;
+                    while (child) {
+                        display_container.removeChild(child);
+                        child = display_container.lastElementChild;
+                    }
+                    db.collection('match').where('sport', '==', sport_value).where('sex', '==', sex_value).where("date", "==", date_value).orderBy("time").onSnapshot(snapshot => {
+                        let changes = snapshot.docChanges();
+                        changes.forEach(change => {
+                            if (change.type == "added") {
+                                renderMatch3(change.doc.data());
+                            } else if (change.type == "removed") {
+                                let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
+                                display_container.removeChild(li);
+                            }
+                        })
+                    })
+
+                } else if (selected_date.innerHTML != "All Date" && selected_time.innerHTML == "All Time" && selected_region.innerHTML != "All Region") {
+                    var child = display_container.lastElementChild;
+                    while (child) {
+                        display_container.removeChild(child);
+                        child = display_container.lastElementChild;
+                    }
+
+                    db.collection('match').where('sport', '==', sport_value).where('sex', '==', sex_value).where("region", '==', region_value).where("date", "==", date_value).orderBy("time").onSnapshot(snapshot => {
+                        let changes = snapshot.docChanges();
+                        changes.forEach(change => {
+                            if (change.type == "added") {
+                                renderMatch3(change.doc.data());
+                            } else if (change.type == "removed") {
+                                let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
+                                display_container.removeChild(li);
+                            }
+                        })
+                    })
+                } else if (selected_date.innerHTML != "All Date" && selected_time.innerHTML != "All Time" && selected_region.innerHTML == "All Region") {
                     let check_hour = hour_check(date_value, time_value);
                     if (check_hour) {
                         var child = display_container.lastElementChild;
@@ -250,19 +291,41 @@ selectedAll.forEach(selected => {
                             display_container.removeChild(child);
                             child = display_container.lastElementChild;
                         }
-                        // db.collection('match').where('sport', '==', sport_value).where('sex', '==', sex_value).where("date", "==", date_value).where("time", "==", time_value).onSnapshot(snapshot => {
-                        //     let changes = snapshot.docChanges();
-                        //     changes.forEach(change => {
-                        //         if (change.type == "added") {
-                        //             renderMatch(change.doc);
-                        //         } else if (change.type == "removed") {
-                        //             let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
-                        //             display_container.removeChild(li);
-                        //         }
-                        //     })
-                        // })
+                        db.collection('match').where('sport', '==', sport_value).where('sex', '==', sex_value).where("date", "==", date_value).where("time", "==", time_value).onSnapshot(snapshot => {
+                            let changes = snapshot.docChanges();
+                            changes.forEach(change => {
+                                if (change.type == "added") {
+                                    renderMatch3(change.doc.data());
+                                } else if (change.type == "removed") {
+                                    let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
+                                    display_container.removeChild(li);
+                                }
+                            })
+                        })
                     } else {
-                        alert("THE TIME HAS PASSED")
+                        alert("THE TIME HAS PASSED");
+                    }
+                } else if (selected_date.innerHTML != "All Date" && selected_time.innerHTML != "All Time" && selected_region.innerHTML != "All Region") {
+                    let check_hour = hour_check(date_value, time_value);
+                    if (check_hour) {
+                        var child = display_container.lastElementChild;
+                        while (child) {
+                            display_container.removeChild(child);
+                            child = display_container.lastElementChild;
+                        }
+                        db.collection('match').where('sport', '==', sport_value).where('sex', '==', sex_value).where("region", '==', region_value).where("date", "==", date_value).where("time", "==", time_value).onSnapshot(snapshot => {
+                            let changes = snapshot.docChanges();
+                            changes.forEach(change => {
+                                if (change.type == "added") {
+                                    renderMatch3(change.doc.data());
+                                } else if (change.type == "removed") {
+                                    let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
+                                    display_container.removeChild(li);
+                                }
+                            })
+                        })
+                    } else {
+                        alert("THE TIME HAS PASSED");
                     }
                 }
                 previous_word = o.querySelector("label").innerHTML;
@@ -454,7 +517,7 @@ function renderMatch(doc) {
 //     let changes = snapshot.docChanges();
 //     changes.forEach(change => {
 //         if (change.type == "added") {
-//             renderMatch(change.doc);
+//             renderMatch3(change.doc.data());
 //         } else if (change.type == "removed") {
 //             let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
 //             display_container.removeChild(li);
@@ -479,19 +542,7 @@ let temp_list = [];
 
 //     db.collection('match').where(firebase.firestore.FieldPath.documentId(), 'in', temp_list).get().then((snapshot) => {
 //         snapshot.docs.forEach(dok => {
-//             let join = "";
-//             let pending = "";
-
-//             let matches_join = dok.data().matches_join;
-//             let matches_pending = dok.data().pending;
-
-//             if (matches_join.includes("1fj3C0p3vowY8tCrpHNa")) {
-//                 join = "yes";
-//             } else if (matches_pending.includes("1fj3C0p3vowY8tCrpHNa")) {
-//                 pending = "yes";
-//             }
-
-//             renderMatch3(dok.data(), join, pending);
+//             renderMatch3(dok.data());
 //         })
 //     })
 // })
@@ -505,6 +556,8 @@ var ok_test = {
     sex: "male",
     sport: "volleyball",
     time: "12:00",
+    matches_join: ["D4T0Imix4NVhf8L0w8J3"],
+    pending: ["D4T0Imix4NVhf8L0w8J3"]
 }
 
 var ok_test2 = {
@@ -516,6 +569,9 @@ var ok_test2 = {
     sex: "anyone",
     sport: "soccer",
     time: "12:00",
+    matches_join: ["D4T0Imix4NVhf8L0w8J3"],
+    pending: ["D4T0Imix4NVhf8L0w8J3"]
+
 }
 
 var ok_test3 = {
@@ -527,6 +583,9 @@ var ok_test3 = {
     sex: "anyone",
     sport: "badminton",
     time: "15:00",
+    matches_join: ["D4T0Imix4NVhf8L0w8J3"],
+    pending: ["D4T0Imix4NVhf8L0w8J3"]
+
 }
 
 var ok_test4 = {
@@ -538,6 +597,9 @@ var ok_test4 = {
     sex: "female",
     sport: "basketball",
     time: "15:00",
+    matches_join: ["D4T0Imix4NVhf8L0w8J3"],
+    pending: ["D4T0Imix4NVhf8L0w8J3"]
+
 }
 
 var ok_test5 = {
@@ -549,6 +611,9 @@ var ok_test5 = {
     sex: "male",
     sport: "soccer",
     time: "15:00",
+    matches_join: ["D4T0Imix4NVhf8L0w8J3"],
+    pending: ["1fj3C0p3vowY8tCrpHNa"]
+
 }
 
 var ok_test6 = {
@@ -560,6 +625,9 @@ var ok_test6 = {
     sex: "male",
     sport: "volleyball",
     time: "15:00",
+    matches_join: ["1fj3C0p3vowY8tCrpHNa"],
+    pending: ["D4T0Imix4NVhf8L0w8J3"]
+
 }
 
 var ok_test7 = {
@@ -571,6 +639,9 @@ var ok_test7 = {
     sex: "anyone",
     sport: "basketball",
     time: "12:00",
+    matches_join: ["D4T0Imix4NVhf8L0w8J3"],
+    pending: ["D4T0Imix4NVhf8L0w8J3"]
+
 }
 
 var ok_test8 = {
@@ -582,17 +653,19 @@ var ok_test8 = {
     sex: "female",
     sport: "basketball",
     time: "17:00",
+    matches_join: ["D4T0Imix4NVhf8L0w8J3"],
+    pending: ["D4T0Imix4NVhf8L0w8J3"]
 }
 
 let div = document.querySelector(".display-container");
 
-renderMatch3(ok_test4, "no", "yes")
-renderMatch3(ok_test5, "no", "no")
-renderMatch3(ok_test6, "yes", "no")
-renderMatch3(ok_test7, "yes", "no")
-renderMatch3(ok_test, "yes", "no")
-renderMatch3(ok_test3, "yes", "no")
-renderMatch3(ok_test2, "yes", "no")
+// renderMatch3(ok_test4)
+// renderMatch3(ok_test5)
+// renderMatch3(ok_test6)
+// renderMatch3(ok_test7)
+// renderMatch3(ok_test)
+// renderMatch3(ok_test3)
+// renderMatch3(ok_test2)
 
 function sortDiv() {
     var div, i, switching, b, shouldSwitch;
@@ -691,7 +764,7 @@ function renderMatch3(doc, join, pending) {
 
     img.src = "./images/group.svg";
     display_title.innerHTML = doc.event_name;
-    p.innerHTML = "3 / 10";
+    p.innerHTML = `${doc.matches_join.length + 1} / 10`;
 
     //DISPLAY BAR
     let display_bar = document.createElement('div');
@@ -726,12 +799,6 @@ function renderMatch3(doc, join, pending) {
 
     //CLASS BUTTON TERGANTUNG ACTION
     button.setAttribute("type", "submit");
-    // button.className = "display-request";
-    // button_p.innerHTML = "Request";
-    // button_image.src = "./images/Right arrow.svg";
-
-    // button.className = "display-delete";
-    // button.className = "display-request";
 
     //SET ID FIREBASE KE LI
     display_item.setAttribute("data-id", doc.id);
@@ -759,17 +826,19 @@ function renderMatch3(doc, join, pending) {
         display_sex_text.innerHTML = "anyone";
     }
 
+    // DETERMINE THE BUTTON TYPE
+
     if (doc.owner == "1fj3C0p3vowY8tCrpHNa") {
         //owner
         button.className = "display-delete";
         button_p.innerHTML = "Delete";
         button_image.src = "./images/Trash.svg";
-    } else if (join == "yes") {
+    } else if (doc.matches_join.includes("1fj3C0p3vowY8tCrpHNa")) {
         //leave
         button.className = "display-leave";
         button_p.innerHTML = "Leave";
         button_image.src = "./images/Leave.svg";
-    } else if (pending == "yes") {
+    } else if (doc.pending.includes("1fj3C0p3vowY8tCrpHNa")) {
         //withdraw
         button.className = "display-withdraw";
         button_p.innerHTML = "Withdraw";
@@ -867,10 +936,10 @@ function renderMatch3(doc, join, pending) {
 
 sortDiv();
 
-function test() {
-    renderMatch3(ok_test8, "no", "no");
-    sortDiv();
-}
+// function test() {
+//     renderMatch3(ok_test8);
+//     sortDiv();
+// }
 
 /*
 // CEK WAKTU
