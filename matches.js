@@ -513,17 +513,22 @@ function renderMatch(doc) {
 
 // UNCOMMENT
 
-// db.collection('match').where('sex', '==', sex_value).orderBy("date").orderBy("time").onSnapshot(snapshot => {
-//     let changes = snapshot.docChanges();
-//     changes.forEach(change => {
-//         if (change.type == "added") {
-//             renderMatch3(change.doc.data());
-//         } else if (change.type == "removed") {
-//             let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
-//             display_container.removeChild(li);
-//         }
-//     })
-// })
+db.collection('match').where('sex', '==', sex_value).orderBy("date").orderBy("time").onSnapshot(snapshot => {
+    let changes = snapshot.docChanges();
+    changes.forEach(change => {
+        if (change.type == "added") {
+            // CHECK IF THE OWNER FIELD EXISTS
+            if (change.doc.data().owner) {
+                renderMatch3(change.doc.data());
+            } else {
+                console.log("there is no owner");
+            }
+        } else if (change.type == "removed") {
+            let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
+            display_container.removeChild(li);
+        }
+    })
+})
 
 
 //UNTUK SCHEDULE
