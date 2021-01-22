@@ -41,8 +41,8 @@ var nextMonthLastDay = new Date(year, month + 2, 0).getDate();
 for (today_date; today_date <= lastDay; today_date++) {
     var date = new Date(year, month, today_date);
     date.setDate(date.getDate());
-    date = String(date);
-    var words = date.split(' ');
+    date_string = String(date);
+    var words = date_string.split(' ');
     var words_date = words.slice(0, 3);
     var date_modified = words_date.join(' ');
 
@@ -53,7 +53,7 @@ for (today_date; today_date <= lastDay; today_date++) {
     input.className = "radio";
     input.setAttribute("type", "radio");
     input.setAttribute("name", "date");
-    input.value = date_modified;
+    input.value = date.toDateString();
     label.innerHTML = date_modified;
 
     div.appendChild(input);
@@ -65,8 +65,8 @@ for (today_date; today_date <= lastDay; today_date++) {
 for (nextMonthFirstDay; nextMonthFirstDay <= nextMonthLastDay; nextMonthFirstDay++) {
     var date = new Date(year, month + 1, nextMonthFirstDay);
     date.setDate(date.getDate());
-    date = String(date);
-    var words = date.split(' ');
+    date_string = String(date);
+    var words = date_string.split(' ');
     var words_date = words.slice(0, 3);
     var date_modified = words_date.join(' ');
 
@@ -77,13 +77,37 @@ for (nextMonthFirstDay; nextMonthFirstDay <= nextMonthLastDay; nextMonthFirstDay
     input.className = "radio";
     input.setAttribute("type", "radio");
     input.setAttribute("name", "date");
-    input.value = date_modified;
+    input.value = date.toDateString();
     label.innerHTML = date_modified;
 
     div.appendChild(input);
     div.appendChild(label);
 
     options_box_date.appendChild(div);
+}
+
+function hour_check(date, time) {
+    const current_month = new Date().getMonth();
+    const current_date = new Date().getDate();
+    let current_hour = new Date().getHours();
+    const current_minute = new Date().getMinutes();
+
+    let calender_month = new Date(date).getMonth();
+    let calender_date = new Date(date).getDate();
+    const input_time = parseInt(time.slice(0, 2));
+
+    // TURN INTO NUMBER
+    if (current_minute > 0) {
+        current_hour += 1;
+    }
+    var hour_diff = input_time - current_hour;
+
+    // CHECK HOUR
+    if (calender_month == current_month && calender_date == current_date && hour_diff < 3) {
+        return false;
+    } else {
+        return true;
+    }
 }
 
 /*
@@ -183,61 +207,66 @@ selectedAll.forEach(selected => {
         o.addEventListener("click", () => {
             selected.innerHTML = o.querySelector("label").innerHTML;
             optionsContainer.classList.remove("active");
-            // if (previous_word != o.querySelector("label").innerHTML) {
-            //     if (selected_date.innerHTML == "All Date") {
-            //         var child = display_container.lastElementChild;
-            //         while (child) {
-            //             display_container.removeChild(child);
-            //             child = display_container.lastElementChild;
-            //         }
-            //         db.collection('match').where('sport', '==', sport_value).where('sex', '==', sex_value).orderBy("date").orderBy("time").onSnapshot(snapshot => {
-            //             let changes = snapshot.docChanges();
-            //             changes.forEach(change => {
-            //                 if (change.type == "added") {
-            //                     renderMatch(change.doc);
-            //                 } else if (change.type == "removed") {
-            //                     let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
-            //                     display_container.removeChild(li);
-            //                 }
-            //             })
-            //         })
-            //     } else if (selected_date.innerHTML != "All Date" && selected_time.innerHTML == "All Time") {
-            //         var child = display_container.lastElementChild;
-            //         while (child) {
-            //             display_container.removeChild(child);
-            //             child = display_container.lastElementChild;
-            //         }
-            //         db.collection('match').where('sport', '==', sport_value).where('sex', '==', sex_value).where("date", "==", date_value).orderBy("time").onSnapshot(snapshot => {
-            //             let changes = snapshot.docChanges();
-            //             changes.forEach(change => {
-            //                 if (change.type == "added") {
-            //                     renderMatch(change.doc);
-            //                 } else if (change.type == "removed") {
-            //                     let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
-            //                     display_container.removeChild(li);
-            //                 }
-            //             })
-            //         })
-            //     } else if (selected_date.innerHTML != "All Date" && selected_time.innerHTML != "All Time") {
-            //         var child = display_container.lastElementChild;
-            //         while (child) {
-            //             display_container.removeChild(child);
-            //             child = display_container.lastElementChild;
-            //         }
-            //         db.collection('match').where('sport', '==', sport_value).where('sex', '==', sex_value).where("date", "==", date_value).where("time", "==", time_value).onSnapshot(snapshot => {
-            //             let changes = snapshot.docChanges();
-            //             changes.forEach(change => {
-            //                 if (change.type == "added") {
-            //                     renderMatch(change.doc);
-            //                 } else if (change.type == "removed") {
-            //                     let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
-            //                     display_container.removeChild(li);
-            //                 }
-            //             })
-            //         })
-            //     }
-            //     previous_word = o.querySelector("label").innerHTML;
-            // }
+            if (previous_word != o.querySelector("label").innerHTML) {
+                if (selected_date.innerHTML == "All Date") {
+                    var child = display_container.lastElementChild;
+                    while (child) {
+                        display_container.removeChild(child);
+                        child = display_container.lastElementChild;
+                    }
+                    // db.collection('match').where('sport', '==', sport_value).where('sex', '==', sex_value).orderBy("date").orderBy("time").onSnapshot(snapshot => {
+                    //     let changes = snapshot.docChanges();
+                    //     changes.forEach(change => {
+                    //         if (change.type == "added") {
+                    //             renderMatch(change.doc);
+                    //         } else if (change.type == "removed") {
+                    //             let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
+                    //             display_container.removeChild(li);
+                    //         }
+                    //     })
+                    // })
+                } else if (selected_date.innerHTML != "All Date" && selected_time.innerHTML == "All Time") {
+                    var child = display_container.lastElementChild;
+                    while (child) {
+                        display_container.removeChild(child);
+                        child = display_container.lastElementChild;
+                    }
+                    // db.collection('match').where('sport', '==', sport_value).where('sex', '==', sex_value).where("date", "==", date_value).orderBy("time").onSnapshot(snapshot => {
+                    //     let changes = snapshot.docChanges();
+                    //     changes.forEach(change => {
+                    //         if (change.type == "added") {
+                    //             renderMatch(change.doc);
+                    //         } else if (change.type == "removed") {
+                    //             let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
+                    //             display_container.removeChild(li);
+                    //         }
+                    //     })
+                    // })
+                } else if (selected_date.innerHTML != "All Date" && selected_time.innerHTML != "All Time") {
+                    let check_hour = hour_check(date_value, time_value);
+                    if (check_hour) {
+                        var child = display_container.lastElementChild;
+                        while (child) {
+                            display_container.removeChild(child);
+                            child = display_container.lastElementChild;
+                        }
+                        // db.collection('match').where('sport', '==', sport_value).where('sex', '==', sex_value).where("date", "==", date_value).where("time", "==", time_value).onSnapshot(snapshot => {
+                        //     let changes = snapshot.docChanges();
+                        //     changes.forEach(change => {
+                        //         if (change.type == "added") {
+                        //             renderMatch(change.doc);
+                        //         } else if (change.type == "removed") {
+                        //             let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
+                        //             display_container.removeChild(li);
+                        //         }
+                        //     })
+                        // })
+                    } else {
+                        alert("THE TIME HAS PASSED")
+                    }
+                }
+                previous_word = o.querySelector("label").innerHTML;
+            }
         });
     });
 })
@@ -246,38 +275,6 @@ selectedAll.forEach(selected => {
 //FIREBASE 
 */
 const display_container = document.querySelector(".display-container");
-
-//Create elements and render Match
-// function renderMatch(doc) {
-//     let li = document.createElement('li');
-//     let div = document.createElement('div');
-//     let event_name = document.createElement('span');
-//     let sport = document.createElement('span');
-//     let time = document.createElement('span');
-//     let location = document.createElement('span');
-//     let address = document.createElement('span');
-//     let date = document.createElement('span');
-//     let sex = document.createElement('span');
-
-//     li.setAttribute("data-id", doc.id);
-//     event_name.textContent = "Event name: " + doc.data().event_name;
-//     sport.textContent = "Sport: " + doc.data().sport;
-//     time.textContent = "Time: " + doc.data().time;
-//     location.textContent = "Location: " + doc.data().location;
-//     address.textContent = "Address: " + doc.data().address;
-//     date.textContent = "Date: " + doc.data().date;
-//     sex.textContent = "Sex: " + doc.data().sex;
-
-//     li.appendChild(event_name);
-//     li.appendChild(sport);
-//     li.appendChild(time);
-//     li.appendChild(location);
-//     li.appendChild(address);
-//     li.appendChild(date);
-//     li.appendChild(sex);
-
-//     matchList.appendChild(li);
-// }
 
 const objectOfDays = {
     "Mon": "Monday",
@@ -469,279 +466,35 @@ function renderMatch(doc) {
 //UNTUK SCHEDULE
 
 let temp_list = [];
-let temp_list2 = [];
 
-function renderMatch2(doc) {
-    //MAIN DIV
-    let display_content_per_date = document.createElement('div');
-    display_content_per_date.className = "display-content-per-date";
-
-    //DATE AND UL
-    let date = document.createElement('h4');
-    let display_list = document.createElement('ul');
-
-    date.className = "display-date";
-    display_list.className = "display-list";
-    let date_text = doc.date;
-    let date_split = date_text.split(" ");
-    let full_day = objectOfDays[date_split[0]];
-    let date_final = date_split.splice(1, 2);
-    let date_join = date_final.join(" ");
-    date.innerHTML = full_day + " " + date_join + ", " + doc.time + " WIB";
-
-    //LI
-    let display_item = document.createElement('li');
-    display_item.className = "display-item";
-
-    //SPORT'S ICON
-    let display_color_identifier = document.createElement('div');
-    let icon = document.createElement('img');
-    display_color_identifier.className = "display-color-identifier";
-
-    if (doc.sport == "basketball") {
-        icon.src = "./images/basketball2.svg";
-        display_item.id = "display-basketball";
-    } else if (doc.sport == "soccer") {
-        icon.src = "./images/soccer2.svg";
-        display_item.id = "display-soccer";
-    } else if (doc.sport == "badminton") {
-        icon.src = "./images/badminton2.svg";
-        display_item.id = "display-badminton";
-    } else if (doc.sport == "volleyball") {
-        icon.src = "./images/volleyball2.svg";
-        display_item.id = "display-volleyball";
-    }
-
-    //EVENT NAME, AMOUNT OF PLAYERS, GENDER
-    let display_text = document.createElement('div');
-    let display_title = document.createElement('h2');
-    let display_amount = document.createElement('div');
-    let img = document.createElement('img');
-    let p = document.createElement('p');
-    let display_peoplepref2 = document.createElement('p');
-
-    display_text.className = "display-text";
-    display_title.className = "display-title";
-    display_amount.className = "display-amount";
-
-    img.src = "./images/group.svg";
-    display_title.innerHTML = doc.event_name;
-    p.innerHTML = "3 / 10";
-
-    //DISPLAY BAR
-    let display_bar = document.createElement('div');
-    display_bar.className = "display-bar";
-
-    //DISPLAY LOCATION
-    let display_location = document.createElement('div');
-    let display_place = document.createElement('p');
-    let display_address = document.createElement('p');
-
-    display_location.className = "display-location";
-    display_place.className = "display-place";
-    display_place.style.textOverflow = "ellipsis";
-    display_address.className = "display-address";
-
-    display_place.innerHTML = doc.location;
-    display_address.innerHTML = doc.address;
-
-    //GENDER ICON
-    let display_peoplepref = document.createElement('div');
-    let display_sex_icon = document.createElement('div');
-    let img_gender = document.createElement('img');
-    let display_sex_text = document.createElement('p');
-
-    display_sex_icon.className = "display-sex-icon";
-    display_sex_text.className = "display-sex-text";
-
-    //BUTTON
-    let button = document.createElement('button');
-    let button_p = document.createElement('p');
-    let button_image = document.createElement('img');
-
-    //CLASS BUTTON TERGANTUNG ACTION
-    button.setAttribute("type", "submit");
-    // button.className = "display-request";
-    // button_p.innerHTML = "Request";
-    // button_image.src = "./images/Right arrow.svg";
-
-    // button.className = "display-delete";
-    // button.className = "display-request";
-
-    //SET ID FIREBASE KE LI
-    display_item.setAttribute("data-id", doc.id);
-
-    if (doc.sex == 'male') {
-        display_peoplepref2.className = "display-peoplepref2 display-male2";
-        display_peoplepref2.innerHTML = "male only";
-        img_gender.src = "./images/male.svg";
-        img_gender.alt = "malesign";
-        display_peoplepref.className = "display-peoplepref display-male";
-        display_sex_text.innerHTML = "male only";
-    } else if (doc.sex == 'female') {
-        display_peoplepref2.className = "display-peoplepref2 display-female2";
-        display_peoplepref2.innerHTML = "female only";
-        img_gender.src = "./images/female.svg";
-        img_gender.alt = "femalesign";
-        display_peoplepref.className = "display-peoplepref display-female";
-        display_sex_text.innerHTML = "female only";
-    } else if (doc.sex == 'anyone') {
-        display_peoplepref2.className = "display-peoplepref2 display-anysex2";
-        display_peoplepref2.innerHTML = "anyone can join";
-        img_gender.src = "./images/anysex.svg";
-        img_gender.alt = "unisex";
-        display_peoplepref.className = "display-peoplepref display-anysex";
-        display_sex_text.innerHTML = "anyone";
-    }
-
-    if (doc.owner == "1fj3C0p3vowY8tCrpHNa") {
-        button.className = "display-delete";
-        button_p.innerHTML = "Delete";
-        button_image.src = "./images/Trash.svg";
-    } else {
-        button.className = "display-leave";
-        button_p.innerHTML = "Leave";
-        button_image.src = "./images/Leave.svg";
-    }
-
-    //display-color-identifier
-    display_color_identifier.appendChild(icon);
-    display_item.appendChild(display_color_identifier);
-
-    //display-text
-    display_amount.appendChild(img);
-    display_amount.appendChild(p);
-    display_text.appendChild(display_title);
-    display_text.appendChild(display_amount);
-    display_text.appendChild(display_peoplepref2);
-
-    //display-location
-    display_location.appendChild(display_place);
-    display_location.appendChild(display_address);
-
-    //display-peoplepref
-    display_sex_icon.appendChild(img_gender);
-    display_peoplepref.appendChild(display_sex_icon);
-    display_peoplepref.appendChild(display_sex_text);
-
-    //display button
-    button.appendChild(button_p);
-    button.appendChild(button_image);
-
-    //APPEND TO DISPLAY-ITEM
-    display_item.appendChild(display_color_identifier);
-    display_item.appendChild(display_text);
-    display_item.appendChild(display_bar);
-    display_item.appendChild(display_location);
-    display_item.appendChild(display_peoplepref);
-    display_item.appendChild(button);
-
-    //APPEND TO MAIN DIV
-    display_list.appendChild(display_item);
-    display_content_per_date.appendChild(date);
-    display_content_per_date.appendChild(display_list);
-    display_container.appendChild(display_content_per_date);
-}
-
-// db.collection('account').doc("1fj3C0p3vowY8tCrpHNa").collection('matches_created_join').get().then((snapshot) => {
-//     snapshot.docs.forEach(doc => {
-//         temp_list.push(doc.data().match_id);
-//     })
-
-//     db.collection('match').where(firebase.firestore.FieldPath.documentId(), 'in', temp_list).get().then((snapshot) => {
-//         snapshot.docs.forEach(dok => {
-//             // renderMatch(dok);
-//             temp_list2.push(dok.data());
-//         })
-
-//         //SORT HOUR
-//         temp_list2.sort(function (a, b) {
-//             // Turn your strings into dates, and then subtract them
-//             // to get a value that is either negative, positive, or zero.
-//             return a.time.slice(0, 2) - b.time.slice(0, 2);
-//         });
-
-//         //SORT DATE
-//         temp_list2.sort(function (a, b) {
-//             // Turn your strings into dates, and then subtract them
-//             // to get a value that is either negative, positive, or zero.
-//             return new Date(a.date) - new Date(b.date);
-//         });
-
-//         temp_list2.forEach(doc => {
-//             renderMatch2(doc);
-//             // console.log(ok);
-//         })
-//     })
-// })
-
-
-// db.collection('account').doc("1fj3C0p3vowY8tCrpHNa").get().then(function (doc) {
-//     if (doc.exists) {
-//         console.log("Document data:", doc.data());
-//     } else {
-//         // doc.data() will be undefined in this case
-//         console.log("No such document!");
-//     }
-// }).catch(function (error) {
-//     console.log("Error getting document:", error);
-// });
-
-
-// db.collection('match').doc('wnvMQrBcGK7HvuPJIzYM').get().then(function (dom) {
-//     if (dom.exists) {
-//         renderMatch(dom);
-//     } else {
-//         // doc.data() will be undefined in this case
-//         console.log("No such document!");
-//     }
-//     // renderMatch(dom);
-// }).catch(function (error) {
-//     console.log("Error getting document:", error);
-// });
 
 
 /*
 //UNTUK MATCHES
 */
 
-// db.collection('account').doc("1fj3C0p3vowY8tCrpHNa").collection('matches_created_join').get().then((snapshot) => {
-//     snapshot.docs.forEach(doc => {
-//         temp_list.push(doc.data().match_id);
-//     })
+// db.collection('account').doc("1fj3C0p3vowY8tCrpHNa").get().then(function (doc) {
+//     temp_list = doc.data().matches_created_join;
+//     // console.log(temp_list);
 
 //     db.collection('match').where(firebase.firestore.FieldPath.documentId(), 'in', temp_list).get().then((snapshot) => {
 //         snapshot.docs.forEach(dok => {
 //             let join = "";
 //             let pending = "";
 
-//             db.collection('match').doc(dok.id).collection('matches_join').where("user_id", "==", "1fj3C0p3vowY8tCrpHNa").get().then((snapshot) => {
-//                 snapshot.docs.forEach(doc => {
-//                     if (doc.exists) {
-//                         join = "yes";
-//                     }
-//                 })
+//             let matches_join = dok.data().matches_join;
+//             let matches_pending = dok.data().pending;
 
-//                 db.collection('match').doc(dok.id).collection('pending').where("user_id", "==", "1fj3C0p3vowY8tCrpHNa").get().then((snapshot) => {
-//                     snapshot.docs.forEach(doc => {
-//                         if (doc.exists) {
-//                             pending = "yes";
-//                         }
-//                     })
-//                     renderMatch3(dok.data(), join, pending);
-//                 })
-//             })
+//             if (matches_join.includes("1fj3C0p3vowY8tCrpHNa")) {
+//                 join = "yes";
+//             } else if (matches_pending.includes("1fj3C0p3vowY8tCrpHNa")) {
+//                 pending = "yes";
+//             }
+
+//             renderMatch3(dok.data(), join, pending);
 //         })
 //     })
 // })
-
-var match_list = ['Qq00cMP6HvEFbUwVOn09', 'RTZurXkIOIZ2mH3y6vde', 'GszIwiSHAdoPv7zRHfnf', 'wnvMQrBcGK7HvuPJIzYM'];
-
-db.collection('match').where(firebase.firestore.FieldPath.documentId(), 'in', match_list).get().then((snapshot) => {
-    snapshot.docs.forEach(doc => {
-        renderMatch3(doc.data(), "no", "no");
-    })
-})
 
 var ok_test = {
     address: "jl.hello234",
@@ -831,10 +584,7 @@ var ok_test8 = {
     time: "17:00",
 }
 
-// window.alert(new Date("Tue Dec 29 2020 23:00"))
-
 let div = document.querySelector(".display-container");
-// console.log(div.length);
 
 renderMatch3(ok_test4, "no", "yes")
 renderMatch3(ok_test5, "no", "no")
@@ -1077,6 +827,42 @@ function renderMatch3(doc, join, pending) {
         display_content_per_date.appendChild(display_list);
         display_container.appendChild(display_content_per_date);
     }
+
+    // DISPLAY APPLICATION FOR REQUEST AND DELETE
+
+    let modalApplication = document.querySelectorAll(".display-request");
+    for (var i = 0; i < modalApplication.length; i++) {
+        modalApplication[i].addEventListener('click',
+            function () {
+                document.querySelector(".modal-application").style.display = 'flex';
+            });
+    }
+
+    let modalReason = document.querySelectorAll(".display-delete");
+    for (var i = 0; i < modalReason.length; i++) {
+        modalReason[i].addEventListener('click',
+            function () {
+                document.querySelector(".modal-reason").style.display = 'flex';
+            });
+    }
+
+    let text_area_application = document.querySelectorAll("#modal-textarea");
+
+    document.querySelector(".modal-close-application").addEventListener('click',
+        function () {
+            document.querySelector(".modal-application").style.display = 'none';
+            text_area_application.forEach(text_area => {
+                text_area.value = "";
+            })
+        });
+
+    document.querySelector(".modal-close-reason").addEventListener('click',
+        function () {
+            document.querySelector(".modal-reason").style.display = 'none';
+            text_area_application.forEach(text_area => {
+                text_area.value = "";
+            })
+        });
 }
 
 sortDiv();
@@ -1084,70 +870,40 @@ sortDiv();
 function test() {
     renderMatch3(ok_test8, "no", "no");
     sortDiv();
-
 }
 
+/*
+// CEK WAKTU
+*/
 
-// setTimeout(test(), 10000);
+// var div_main = document.querySelector(".display-container").childNodes;
+// var date_current = new Date();
 
-var div_main = document.querySelector(".display-container").childNodes;
-var date_current = new Date();
+// var top_on_the_list = new Date(div_main[1].id);
 
-var top_on_the_list = new Date(div_main[1].id);
+// if (top_on_the_list < date_current) {
+//     console.log(top_on_the_list);
+//     console.log(date_current);
+//     console.log("it is smaller");
+//     // document.querySelector(".display-container").removeChild(div_main[1]);
+// } else {
+//     console.log(top_on_the_list);
+//     console.log(date_current);
+//     console.log("it is larger");
+// }
 
-if (top_on_the_list < date_current) {
-    console.log(top_on_the_list);
-    console.log(date_current);
-    console.log("it is smaller");
-    // document.querySelector(".display-container").removeChild(div_main[1]);
-} else {
-    console.log(top_on_the_list);
-    console.log(date_current);
-    console.log("it is larger");
-}
+/*
+// COBA COBA
+*/
 
-let modalApplication = document.querySelectorAll(".display-request");
-for (var i = 0; i < modalApplication.length; i++) {
-    modalApplication[i].addEventListener('click',
-        function () {
-            document.querySelector(".modal-application").style.display = 'flex';
-        });
-}
+// db.collection('account').doc("1fj3C0p3vowY8tCrpHNa").update({
+//     matches_created_join: firebase.firestore.FieldValue.arrayUnion("test_2")
+// });
 
-let modalReason = document.querySelectorAll(".display-delete");
-for (var i = 0; i < modalReason.length; i++) {
-    modalReason[i].addEventListener('click',
-        function () {
-            document.querySelector(".modal-reason").style.display = 'flex';
-        });
-}
-
-let text_area_application = document.querySelectorAll("#modal-textarea");
-
-document.querySelector(".modal-close-application").addEventListener('click',
-    function () {
-        document.querySelector(".modal-application").style.display = 'none';
-        text_area_application.forEach(text_area => {
-            text_area.value = "";
-        })
-    });
-
-document.querySelector(".modal-close-reason").addEventListener('click',
-    function () {
-        document.querySelector(".modal-reason").style.display = 'none';
-        text_area_application.forEach(text_area => {
-            text_area.value = "";
-        })
-    });
-
-db.collection('account').doc("1fj3C0p3vowY8tCrpHNa").update({
-    matches_created_join: firebase.firestore.FieldValue.arrayUnion("test_2")
-});
-
-db.collection('account').doc("1fj3C0p3vowY8tCrpHNa").get().then(function (doc) {
-    if (doc.exists) {
-        console.log("Document data:", doc.data());
-    }
-}).catch(function (error) {
-    console.log("Error getting document:", error);
-});
+// db.collection('account').doc("1fj3C0p3vowY8tCrpHNa").get().then(function (doc) {
+//     if (doc.exists) {
+//         console.log("Document data:", doc.data());
+//     }
+// }).catch(function (error) {
+//     console.log("Error getting document:", error);
+// });
