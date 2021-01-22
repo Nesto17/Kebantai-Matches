@@ -1139,3 +1139,15 @@ document.querySelector(".modal-close-reason").addEventListener('click',
             text_area.value = "";
         })
     });
+
+db.collection('account').doc("1fj3C0p3vowY8tCrpHNa").update({
+    matches_created_join: firebase.firestore.FieldValue.arrayUnion("test_2")
+});
+
+db.collection('account').doc("1fj3C0p3vowY8tCrpHNa").get().then(function (doc) {
+    if (doc.exists) {
+        console.log("Document data:", doc.data());
+    }
+}).catch(function (error) {
+    console.log("Error getting document:", error);
+});
