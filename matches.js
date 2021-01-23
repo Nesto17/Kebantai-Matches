@@ -513,22 +513,22 @@ function renderMatch(doc) {
 
 // UNCOMMENT
 
-db.collection('match').where('sex', '==', sex_value).orderBy("date").orderBy("time").onSnapshot(snapshot => {
-    let changes = snapshot.docChanges();
-    changes.forEach(change => {
-        if (change.type == "added") {
-            // CHECK IF THE OWNER FIELD EXISTS
-            if (change.doc.data().owner) {
-                renderMatch3(change.doc.data());
-            } else {
-                console.log("there is no owner");
-            }
-        } else if (change.type == "removed") {
-            let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
-            display_container.removeChild(li);
-        }
-    })
-})
+// db.collection('match').where('sex', '==', sex_value).orderBy("date").orderBy("time").onSnapshot(snapshot => {
+//     let changes = snapshot.docChanges();
+//     changes.forEach(change => {
+//         if (change.type == "added") {
+//             // CHECK IF THE OWNER FIELD EXISTS
+//             if (change.doc.data().owner) {
+//                 renderMatch3(change.doc.data());
+//             } else {
+//                 console.log("there is no owner");
+//             }
+//         } else if (change.type == "removed") {
+//             let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
+//             display_container.removeChild(li);
+//         }
+//     })
+// })
 
 
 //UNTUK SCHEDULE
@@ -640,11 +640,11 @@ var ok_test7 = {
     date: "Wed Dec 30 2020",
     event_name: "asdkljfha",
     location: "Cipaku Gym",
-    owner: "1fj3C0p3vowY8tCrpHNa",
+    owner: "lol",
     sex: "anyone",
     sport: "basketball",
     time: "12:00",
-    matches_join: ["D4T0Imix4NVhf8L0w8J3"],
+    matches_join: ["1fj3C0p3vowY8tCrpHNa"],
     pending: ["D4T0Imix4NVhf8L0w8J3"]
 
 }
@@ -664,13 +664,13 @@ var ok_test8 = {
 
 let div = document.querySelector(".display-container");
 
-// renderMatch3(ok_test4)
-// renderMatch3(ok_test5)
-// renderMatch3(ok_test6)
-// renderMatch3(ok_test7)
-// renderMatch3(ok_test)
-// renderMatch3(ok_test3)
-// renderMatch3(ok_test2)
+renderMatch3(ok_test4)
+renderMatch3(ok_test5)
+renderMatch3(ok_test6)
+renderMatch3(ok_test7)
+renderMatch3(ok_test)
+renderMatch3(ok_test3)
+renderMatch3(ok_test2)
 
 function sortDiv() {
     var div, i, switching, b, shouldSwitch;
@@ -802,6 +802,9 @@ function renderMatch3(doc, join, pending) {
     let button_p = document.createElement('p');
     let button_image = document.createElement('img');
 
+    button_p.className = "button_p";
+    button_image.className = "button_image";
+
     //CLASS BUTTON TERGANTUNG ACTION
     button.setAttribute("type", "submit");
 
@@ -903,7 +906,6 @@ function renderMatch3(doc, join, pending) {
     }
 
     // DISPLAY APPLICATION FOR REQUEST AND DELETE
-
     let modalApplication = document.querySelectorAll(".display-request");
     for (var i = 0; i < modalApplication.length; i++) {
         modalApplication[i].addEventListener('click',
@@ -911,6 +913,24 @@ function renderMatch3(doc, join, pending) {
                 document.querySelector(".modal-application").style.display = 'flex';
             });
     }
+
+    let buttons_leave = document.querySelectorAll(".display-leave");
+    buttons_leave.forEach(but => {
+        but.addEventListener('click', () => {
+            but.className = "display-request";
+            but.querySelector(".button_p").innerHTML = "Request";
+            but.querySelector(".button_image").src = "./images/Right arrow.svg";
+        })
+    })
+
+    let button_withdraw = document.querySelectorAll(".display-withdraw");
+    button_withdraw.forEach(but => {
+        but.addEventListener('click', () => {
+            but.className = "display-request";
+            but.querySelector(".button_p").innerHTML = "Request";
+            but.querySelector(".button_image").src = "./images/Right arrow.svg";
+        })
+    })
 
     let modalReason = document.querySelectorAll(".display-delete");
     for (var i = 0; i < modalReason.length; i++) {
@@ -941,10 +961,66 @@ function renderMatch3(doc, join, pending) {
 
 sortDiv();
 
-// function test() {
-//     renderMatch3(ok_test8);
-//     sortDiv();
-// }
+function test() {
+    renderMatch3(ok_test8);
+    sortDiv();
+}
+
+window.addEventListener("click", () => {
+    // DISPLAY APPLICATION FOR REQUEST AND DELETE
+
+    let modalApplication = document.querySelectorAll(".display-request");
+    for (var i = 0; i < modalApplication.length; i++) {
+        modalApplication[i].addEventListener('click',
+            function () {
+                document.querySelector(".modal-application").style.display = 'flex';
+            });
+    }
+
+    let buttons_leave = document.querySelectorAll(".display-leave");
+    buttons_leave.forEach(but => {
+        but.addEventListener('click', () => {
+            but.className = "display-request";
+            but.querySelector(".button_p").innerHTML = "Request";
+            but.querySelector(".button_image").src = "./images/Right arrow.svg";
+        })
+    })
+
+    let button_withdraw = document.querySelectorAll(".display-withdraw");
+    button_withdraw.forEach(but => {
+        but.addEventListener('click', () => {
+            but.className = "display-request";
+            but.querySelector(".button_p").innerHTML = "Request";
+            but.querySelector(".button_image").src = "./images/Right arrow.svg";
+        })
+    })
+
+    let modalReason = document.querySelectorAll(".display-delete");
+    for (var i = 0; i < modalReason.length; i++) {
+        modalReason[i].addEventListener('click',
+            function () {
+                document.querySelector(".modal-reason").style.display = 'flex';
+            });
+    }
+
+    let text_area_application = document.querySelectorAll("#modal-textarea");
+
+    document.querySelector(".modal-close-application").addEventListener('click',
+        function () {
+            document.querySelector(".modal-application").style.display = 'none';
+            text_area_application.forEach(text_area => {
+                text_area.value = "";
+            })
+        });
+
+    document.querySelector(".modal-close-reason").addEventListener('click',
+        function () {
+            document.querySelector(".modal-reason").style.display = 'none';
+            text_area_application.forEach(text_area => {
+                text_area.value = "";
+            })
+        });
+})
 
 /*
 // CEK WAKTU
