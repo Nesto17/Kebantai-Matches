@@ -953,120 +953,6 @@ function test() {
     sortDiv();
 }
 
-// var myvar = setInterval(update_call, 1000);
-
-// function update_call() {
-//     // DISPLAY APPLICATION FOR REQUEST, DELETE, AND WITHDRAW
-
-//     // REQUEST
-//     let modalApplication = document.querySelectorAll(".display-request");
-//     modalApplication.forEach(modal => {
-//         modal.addEventListener('click', (e) => {
-//             e.preventDefault();
-//             modal.id = "selected_button";
-//             document.querySelector(".modal-application").style.display = 'flex';
-//         })
-//     })
-
-
-//     // LEAVE
-//     let buttons_leave = document.querySelectorAll(".display-leave");
-//     buttons_leave.forEach(but => {
-//         but.addEventListener('click', () => {
-//             but.className = "display-request";
-//             but.querySelector(".button_p").innerHTML = "Request";
-//             but.querySelector(".button_image").src = "./images/Right arrow.svg";
-//         })
-//     })
-
-//     // WITHDRAW
-//     let button_withdraw = document.querySelectorAll(".display-withdraw");
-//     console.log(button_withdraw.length);
-//     button_withdraw.forEach(but => {
-//         but.addEventListener('click', () => {
-//             but.className = "display-request";
-//             but.querySelector(".button_p").innerHTML = "Request";
-//             but.querySelector(".button_image").src = "./images/Right arrow.svg";
-//         })
-//     })
-
-//     // DELETE
-//     let modalReason = document.querySelectorAll(".display-delete");
-//     for (var i = 0; i < modalReason.length; i++) {
-//         modalReason[i].addEventListener('click',
-//             function () {
-//                 this.id = "selected_button";
-//                 document.querySelector(".modal-reason").style.display = 'flex';
-//             });
-//     }
-
-//     let text_area_application = document.querySelectorAll("#modal-textarea");
-
-//     // FORM APPLICATION
-//     document.querySelector(".modal-close-application").addEventListener('click',
-//         function () {
-//             let selected_button = document.querySelectorAll("#selected_button");
-//             selected_button.forEach(button => {
-//                 button.removeAttribute('id');
-//             })
-//             document.querySelector(".modal-application").style.display = 'none';
-//             text_area_application.forEach(text_area => {
-//                 text_area.value = "";
-//             })
-//         });
-
-//     let modal_application_submit = document.querySelectorAll(".modal-application-submit");
-//     modal_application_submit.forEach(reason => {
-//         reason.addEventListener('click', (e) => {
-//             e.preventDefault();
-//             let textarea = reason.parentNode.querySelector("textarea");
-//             if (textarea.value.length < 20) {
-//                 console.log("Enter 20 CHARACTERS");
-//             } else {
-//                 let button_change = document.getElementById("selected_button");
-//                 button_change.className = "display-withdraw";
-//                 button_change.querySelector("p").innerHTML = "Withdraw";
-//                 button_change.querySelector("img").src = "./images/withdraw.svg";
-//                 document.querySelector(".modal-application").style.display = 'none';
-//                 let selected_button = document.querySelectorAll("#selected_button");
-//                 selected_button.forEach(button => {
-//                     button.removeAttribute('id');
-//                 })
-//                 text_area_application.forEach(text_area => {
-//                     text_area.value = "";
-//                 })
-//             }
-//         });
-//     })
-
-//     // FORM DELETE 
-//     document.querySelector(".modal-close-reason").addEventListener('click',
-//         function () {
-//             let selected_button = document.querySelectorAll("#selected_button");
-//             selected_button.forEach(button => {
-//                 button.removeAttribute('id');
-//             })
-//             document.querySelector(".modal-reason").style.display = 'none';
-//             text_area_application.forEach(text_area => {
-//                 text_area.value = "";
-//             })
-//         });
-
-//     let modal_reason_submit = document.querySelectorAll(".modal-reason-submit");
-//     modal_reason_submit.forEach(reason => {
-//         reason.addEventListener('click', (e) => {
-//             e.preventDefault();
-//             let textarea = reason.parentNode.querySelector("textarea");
-//             if (textarea.value.length < 20) {
-//                 console.log("Enter 20 CHARACTERS");
-//             } else {
-//                 console.log("working");
-//                 document.querySelector(".modal-reason").style.display = 'none';
-
-//             }
-//         });
-//     })
-// }
 
 document.addEventListener("click", () => {
     // DISPLAY APPLICATION FOR REQUEST, DELETE, AND WITHDRAW
@@ -1205,19 +1091,27 @@ document.addEventListener("click", () => {
 })
 
 /*
-// CEK WAKTU
+// CHECK TIME TO DELETE THE CHILD ON TOP OF THE LIST
 */
 
-// var div_main = document.querySelector(".display-container").childNodes;
+// var div_top = document.querySelector(".display-container").childNodes;
+// var ul_top = div_top[1].querySelector("ul");
 // var date_current = new Date();
 
-// var top_on_the_list = new Date(div_main[1].id);
+// var top_on_the_list = new Date(div_top[1].id);
 
 // if (top_on_the_list < date_current) {
 //     console.log(top_on_the_list);
 //     console.log(date_current);
 //     console.log("it is smaller");
-//     // document.querySelector(".display-container").removeChild(div_main[1]);
+//     var child = ul_top.lastElementChild;
+//     // REMOVE LI
+//     while (child) {
+//         ul_top.removeChild(child);
+//         child = ul_top.lastElementChild;
+//     }
+//     // REMOVE DIV
+//     document.querySelector(".display-container").removeChild(div_top[1]);
 // } else {
 //     console.log(top_on_the_list);
 //     console.log(date_current);
