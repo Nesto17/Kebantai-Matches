@@ -905,11 +905,15 @@ function renderMatch3(doc, join, pending) {
         display_container.appendChild(display_content_per_date);
     }
 
+    /*
     // DISPLAY APPLICATION FOR REQUEST AND DELETE
+    */
+
     let modalApplication = document.querySelectorAll(".display-request");
     for (var i = 0; i < modalApplication.length; i++) {
         modalApplication[i].addEventListener('click',
             function () {
+                this.id = "selected_button";
                 document.querySelector(".modal-application").style.display = 'flex';
             });
     }
@@ -936,27 +940,10 @@ function renderMatch3(doc, join, pending) {
     for (var i = 0; i < modalReason.length; i++) {
         modalReason[i].addEventListener('click',
             function () {
+                this.id = "selected_button";
                 document.querySelector(".modal-reason").style.display = 'flex';
             });
     }
-
-    let text_area_application = document.querySelectorAll("#modal-textarea");
-
-    document.querySelector(".modal-close-application").addEventListener('click',
-        function () {
-            document.querySelector(".modal-application").style.display = 'none';
-            text_area_application.forEach(text_area => {
-                text_area.value = "";
-            })
-        });
-
-    document.querySelector(".modal-close-reason").addEventListener('click',
-        function () {
-            document.querySelector(".modal-reason").style.display = 'none';
-            text_area_application.forEach(text_area => {
-                text_area.value = "";
-            })
-        });
 }
 
 sortDiv();
@@ -966,17 +953,136 @@ function test() {
     sortDiv();
 }
 
-window.addEventListener("click", () => {
-    // DISPLAY APPLICATION FOR REQUEST AND DELETE
+// var myvar = setInterval(update_call, 1000);
 
+// function update_call() {
+//     // DISPLAY APPLICATION FOR REQUEST, DELETE, AND WITHDRAW
+
+//     // REQUEST
+//     let modalApplication = document.querySelectorAll(".display-request");
+//     modalApplication.forEach(modal => {
+//         modal.addEventListener('click', (e) => {
+//             e.preventDefault();
+//             modal.id = "selected_button";
+//             document.querySelector(".modal-application").style.display = 'flex';
+//         })
+//     })
+
+
+//     // LEAVE
+//     let buttons_leave = document.querySelectorAll(".display-leave");
+//     buttons_leave.forEach(but => {
+//         but.addEventListener('click', () => {
+//             but.className = "display-request";
+//             but.querySelector(".button_p").innerHTML = "Request";
+//             but.querySelector(".button_image").src = "./images/Right arrow.svg";
+//         })
+//     })
+
+//     // WITHDRAW
+//     let button_withdraw = document.querySelectorAll(".display-withdraw");
+//     console.log(button_withdraw.length);
+//     button_withdraw.forEach(but => {
+//         but.addEventListener('click', () => {
+//             but.className = "display-request";
+//             but.querySelector(".button_p").innerHTML = "Request";
+//             but.querySelector(".button_image").src = "./images/Right arrow.svg";
+//         })
+//     })
+
+//     // DELETE
+//     let modalReason = document.querySelectorAll(".display-delete");
+//     for (var i = 0; i < modalReason.length; i++) {
+//         modalReason[i].addEventListener('click',
+//             function () {
+//                 this.id = "selected_button";
+//                 document.querySelector(".modal-reason").style.display = 'flex';
+//             });
+//     }
+
+//     let text_area_application = document.querySelectorAll("#modal-textarea");
+
+//     // FORM APPLICATION
+//     document.querySelector(".modal-close-application").addEventListener('click',
+//         function () {
+//             let selected_button = document.querySelectorAll("#selected_button");
+//             selected_button.forEach(button => {
+//                 button.removeAttribute('id');
+//             })
+//             document.querySelector(".modal-application").style.display = 'none';
+//             text_area_application.forEach(text_area => {
+//                 text_area.value = "";
+//             })
+//         });
+
+//     let modal_application_submit = document.querySelectorAll(".modal-application-submit");
+//     modal_application_submit.forEach(reason => {
+//         reason.addEventListener('click', (e) => {
+//             e.preventDefault();
+//             let textarea = reason.parentNode.querySelector("textarea");
+//             if (textarea.value.length < 20) {
+//                 console.log("Enter 20 CHARACTERS");
+//             } else {
+//                 let button_change = document.getElementById("selected_button");
+//                 button_change.className = "display-withdraw";
+//                 button_change.querySelector("p").innerHTML = "Withdraw";
+//                 button_change.querySelector("img").src = "./images/withdraw.svg";
+//                 document.querySelector(".modal-application").style.display = 'none';
+//                 let selected_button = document.querySelectorAll("#selected_button");
+//                 selected_button.forEach(button => {
+//                     button.removeAttribute('id');
+//                 })
+//                 text_area_application.forEach(text_area => {
+//                     text_area.value = "";
+//                 })
+//             }
+//         });
+//     })
+
+//     // FORM DELETE 
+//     document.querySelector(".modal-close-reason").addEventListener('click',
+//         function () {
+//             let selected_button = document.querySelectorAll("#selected_button");
+//             selected_button.forEach(button => {
+//                 button.removeAttribute('id');
+//             })
+//             document.querySelector(".modal-reason").style.display = 'none';
+//             text_area_application.forEach(text_area => {
+//                 text_area.value = "";
+//             })
+//         });
+
+//     let modal_reason_submit = document.querySelectorAll(".modal-reason-submit");
+//     modal_reason_submit.forEach(reason => {
+//         reason.addEventListener('click', (e) => {
+//             e.preventDefault();
+//             let textarea = reason.parentNode.querySelector("textarea");
+//             if (textarea.value.length < 20) {
+//                 console.log("Enter 20 CHARACTERS");
+//             } else {
+//                 console.log("working");
+//                 document.querySelector(".modal-reason").style.display = 'none';
+
+//             }
+//         });
+//     })
+// }
+
+document.addEventListener("click", () => {
+    // DISPLAY APPLICATION FOR REQUEST, DELETE, AND WITHDRAW
+
+    // REQUEST
     let modalApplication = document.querySelectorAll(".display-request");
-    for (var i = 0; i < modalApplication.length; i++) {
-        modalApplication[i].addEventListener('click',
-            function () {
-                document.querySelector(".modal-application").style.display = 'flex';
-            });
-    }
+    modalApplication.forEach(modal => {
+        modal.addEventListener('click', (e) => {
+            e.preventDefault();
+            modal.id = "selected_button";
+            document.querySelector(".modal-application").style.display = 'flex';
+        })
+    })
 
+
+    // LEAVE
     let buttons_leave = document.querySelectorAll(".display-leave");
     buttons_leave.forEach(but => {
         but.addEventListener('click', () => {
@@ -986,40 +1092,116 @@ window.addEventListener("click", () => {
         })
     })
 
+    // WITHDRAW
     let button_withdraw = document.querySelectorAll(".display-withdraw");
     button_withdraw.forEach(but => {
-        but.addEventListener('click', () => {
+        but.addEventListener('click', (e) => {
             but.className = "display-request";
             but.querySelector(".button_p").innerHTML = "Request";
             but.querySelector(".button_image").src = "./images/Right arrow.svg";
+            document.querySelector(".modal-application").style.display = 'none';
+            let selected_button = document.querySelectorAll("#selected_button");
+            selected_button.forEach(button => {
+                button.removeAttribute('id');
+            })
         })
     })
 
+    // DELETE
     let modalReason = document.querySelectorAll(".display-delete");
     for (var i = 0; i < modalReason.length; i++) {
         modalReason[i].addEventListener('click',
             function () {
+                this.id = "selected_button";
                 document.querySelector(".modal-reason").style.display = 'flex';
             });
     }
 
     let text_area_application = document.querySelectorAll("#modal-textarea");
 
+    // FORM APPLICATION
     document.querySelector(".modal-close-application").addEventListener('click',
         function () {
+            let selected_button = document.querySelectorAll("#selected_button");
+            selected_button.forEach(button => {
+                button.removeAttribute('id');
+            })
             document.querySelector(".modal-application").style.display = 'none';
             text_area_application.forEach(text_area => {
                 text_area.value = "";
             })
         });
 
+    let modal_application_submit = document.querySelectorAll(".modal-application-submit");
+    modal_application_submit.forEach(reason => {
+        reason.addEventListener('click', (e) => {
+            e.preventDefault();
+            let textarea = reason.parentNode.querySelector("textarea");
+            if (textarea.value.length < 20) {
+                console.log("Enter 20 CHARACTERS");
+            } else {
+                let button_change = document.getElementById("selected_button");
+                button_change.className = "display-withdraw";
+                button_change.querySelector("p").innerHTML = "Withdraw";
+                button_change.querySelector("img").src = "./images/withdraw.svg";
+                document.querySelector(".modal-application").style.display = 'none';
+                let selected_button = document.querySelectorAll("#selected_button");
+                selected_button.forEach(button => {
+                    button.removeAttribute('id');
+                })
+                text_area_application.forEach(text_area => {
+                    text_area.value = "";
+                })
+            }
+        });
+    })
+
+    // FORM DELETE 
     document.querySelector(".modal-close-reason").addEventListener('click',
         function () {
+            let selected_button = document.querySelectorAll("#selected_button");
+            selected_button.forEach(button => {
+                button.removeAttribute('id');
+            })
             document.querySelector(".modal-reason").style.display = 'none';
             text_area_application.forEach(text_area => {
                 text_area.value = "";
             })
         });
+
+    let modal_reason_submit = document.querySelectorAll(".modal-reason-submit");
+    modal_reason_submit.forEach(reason => {
+        reason.addEventListener('click', (e) => {
+            e.preventDefault();
+            let textarea = reason.parentNode.querySelector("textarea");
+            if (textarea.value.length < 20) {
+                console.log("Enter 20 CHARACTERS");
+            } else {
+                // REMOVE ELEMENT FROM PARENT
+                let button_selected = document.getElementById("selected_button");
+                let li_selected = button_selected.parentNode;
+                let ul_selected = li_selected.parentNode;
+                let ul_selected_child = li_selected.parentNode.childElementCount;
+                let div_selected = ul_selected.parentNode;
+
+                if (ul_selected_child < 2) {
+                    display_container.removeChild(div_selected)
+                } else {
+                    ul_selected.removeChild(li_selected);
+                }
+
+                let selected_button = document.querySelectorAll("#selected_button");
+                selected_button.forEach(button => {
+                    button.removeAttribute('id');
+                })
+                text_area_application.forEach(text_area => {
+                    text_area.value = "";
+                })
+
+                document.querySelector(".modal-reason").style.display = 'none';
+            }
+        });
+    })
 })
 
 /*
@@ -1057,3 +1239,22 @@ window.addEventListener("click", () => {
 // }).catch(function (error) {
 //     console.log("Error getting document:", error);
 // });
+
+
+// CHECK EVERY MINUTE
+
+// let current_seconds = new Date().getSeconds();
+// let difference_seconds = 60 - current_seconds;
+
+// setTimeout(function () {
+//     var d = new Date();
+//     console.log(d.toLocaleTimeString());
+//     var myVar = setInterval(myTimer, 60000);
+// }, difference_seconds * 1000);
+
+// // var myVar = setInterval(myTimer, 60000);
+
+// function myTimer() {
+//     var d = new Date();
+//     console.log(d.toLocaleTimeString());
+// }
