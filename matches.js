@@ -222,7 +222,9 @@ selectedAll.forEach(selected => {
                         let changes = snapshot.docChanges();
                         changes.forEach(change => {
                             if (change.type == "added") {
-                                renderMatch3(change.doc.data());
+                                if (change.doc.data().owner) {
+                                    renderMatch3(change.doc.data(), change.doc.id);
+                                }
                             } else if (change.type == "removed") {
                                 let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
                                 display_container.removeChild(li);
@@ -239,7 +241,9 @@ selectedAll.forEach(selected => {
                         let changes = snapshot.docChanges();
                         changes.forEach(change => {
                             if (change.type == "added") {
-                                renderMatch3(change.doc.data());
+                                if (change.doc.data().owner) {
+                                    renderMatch3(change.doc.data(), change.doc.id);
+                                }
                             } else if (change.type == "removed") {
                                 let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
                                 display_container.removeChild(li);
@@ -257,7 +261,9 @@ selectedAll.forEach(selected => {
                         let changes = snapshot.docChanges();
                         changes.forEach(change => {
                             if (change.type == "added") {
-                                renderMatch3(change.doc.data());
+                                if (change.doc.data().owner) {
+                                    renderMatch3(change.doc.data(), change.doc.id);
+                                }
                             } else if (change.type == "removed") {
                                 let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
                                 display_container.removeChild(li);
@@ -276,7 +282,9 @@ selectedAll.forEach(selected => {
                         let changes = snapshot.docChanges();
                         changes.forEach(change => {
                             if (change.type == "added") {
-                                renderMatch3(change.doc.data());
+                                if (change.doc.data().owner) {
+                                    renderMatch3(change.doc.data(), change.doc.id);
+                                }
                             } else if (change.type == "removed") {
                                 let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
                                 display_container.removeChild(li);
@@ -295,7 +303,9 @@ selectedAll.forEach(selected => {
                             let changes = snapshot.docChanges();
                             changes.forEach(change => {
                                 if (change.type == "added") {
-                                    renderMatch3(change.doc.data());
+                                    if (change.doc.data().owner) {
+                                        renderMatch3(change.doc.data(), change.doc.id);
+                                    }
                                 } else if (change.type == "removed") {
                                     let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
                                     display_container.removeChild(li);
@@ -317,7 +327,9 @@ selectedAll.forEach(selected => {
                             let changes = snapshot.docChanges();
                             changes.forEach(change => {
                                 if (change.type == "added") {
-                                    renderMatch3(change.doc.data());
+                                    if (change.doc.data().owner) {
+                                        renderMatch3(change.doc.data(), change.doc.id);
+                                    }
                                 } else if (change.type == "removed") {
                                     let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
                                     display_container.removeChild(li);
@@ -513,22 +525,20 @@ function renderMatch(doc) {
 
 // UNCOMMENT
 
-// db.collection('match').where('sex', '==', sex_value).orderBy("date").orderBy("time").onSnapshot(snapshot => {
-//     let changes = snapshot.docChanges();
-//     changes.forEach(change => {
-//         if (change.type == "added") {
-//             // CHECK IF THE OWNER FIELD EXISTS
-//             if (change.doc.data().owner) {
-//                 renderMatch3(change.doc.data());
-//             } else {
-//                 console.log("there is no owner");
-//             }
-//         } else if (change.type == "removed") {
-//             let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
-//             display_container.removeChild(li);
-//         }
-//     })
-// })
+db.collection('match').where('sex', '==', sex_value).orderBy("date").orderBy("time").onSnapshot(snapshot => {
+    let changes = snapshot.docChanges();
+    changes.forEach(change => {
+        if (change.type == "added") {
+            // CHECK IF THE OWNER FIELD EXISTS
+            if (change.doc.data().owner) {
+                renderMatch3(change.doc.data(), change.doc.id);
+            }
+        } else if (change.type == "removed") {
+            let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
+            display_container.removeChild(li);
+        }
+    })
+})
 
 
 //UNTUK SCHEDULE
@@ -664,13 +674,13 @@ var ok_test8 = {
 
 let div = document.querySelector(".display-container");
 
-renderMatch3(ok_test4)
-renderMatch3(ok_test5)
-renderMatch3(ok_test6)
-renderMatch3(ok_test7)
-renderMatch3(ok_test)
-renderMatch3(ok_test3)
-renderMatch3(ok_test2)
+// renderMatch3(ok_test4)
+// renderMatch3(ok_test5)
+// renderMatch3(ok_test6)
+// renderMatch3(ok_test7)
+// renderMatch3(ok_test)
+// renderMatch3(ok_test3)
+// renderMatch3(ok_test2)
 
 function sortDiv() {
     var div, i, switching, b, shouldSwitch;
@@ -712,7 +722,7 @@ function sortDiv() {
     }
 }
 
-function renderMatch3(doc, join, pending) {
+function renderMatch3(doc, id) {
     //MAIN DIV
     let display_content_per_date = document.createElement('div');
     display_content_per_date.className = "display-content-per-date";
@@ -769,7 +779,7 @@ function renderMatch3(doc, join, pending) {
 
     img.src = "./images/group.svg";
     display_title.innerHTML = doc.event_name;
-    p.innerHTML = `${doc.matches_join.length + 1} / 10`;
+    p.innerHTML = `${doc.matches_join.length + 1} / ${parseInt(doc.limit)}`;
 
     //DISPLAY BAR
     let display_bar = document.createElement('div');
@@ -809,7 +819,7 @@ function renderMatch3(doc, join, pending) {
     button.setAttribute("type", "submit");
 
     //SET ID FIREBASE KE LI
-    display_item.setAttribute("data-id", doc.id);
+    display_item.setAttribute("data-id", id);
 
     if (doc.sex == 'male') {
         display_peoplepref2.className = "display-peoplepref2 display-male2";
@@ -836,6 +846,16 @@ function renderMatch3(doc, join, pending) {
 
     // DETERMINE THE BUTTON TYPE
 
+    let doc_pending_data = doc.pending;
+    let pending_list_data = [];
+
+    doc_pending_data.forEach(data_pending => {
+        let split_data = data_pending.split(",");
+        split_data.forEach(data => {
+            pending_list_data.push(data);
+        })
+    })
+
     if (doc.owner == "1fj3C0p3vowY8tCrpHNa") {
         //owner
         button.className = "display-delete";
@@ -846,7 +866,7 @@ function renderMatch3(doc, join, pending) {
         button.className = "display-leave";
         button_p.innerHTML = "Leave";
         button_image.src = "./images/Leave.svg";
-    } else if (doc.pending.includes("1fj3C0p3vowY8tCrpHNa")) {
+    } else if (pending_list_data.includes("1fj3C0p3vowY8tCrpHNa")) {
         //withdraw
         button.className = "display-withdraw";
         button_p.innerHTML = "Withdraw";
@@ -948,10 +968,10 @@ function renderMatch3(doc, join, pending) {
 
 sortDiv();
 
-function test() {
-    renderMatch3(ok_test8);
-    sortDiv();
-}
+// function test() {
+//     renderMatch3(ok_test8);
+//     sortDiv();
+// }
 
 
 document.addEventListener("click", () => {
@@ -982,6 +1002,11 @@ document.addEventListener("click", () => {
     let button_withdraw = document.querySelectorAll(".display-withdraw");
     button_withdraw.forEach(but => {
         but.addEventListener('click', (e) => {
+            // belom selesai
+            db.collection('match').doc(button_parent.getAttribute("data-id")).update({
+                pending: firebase.firestore.FieldValue.arrayRemove(data)
+            });
+
             but.className = "display-request";
             but.querySelector(".button_p").innerHTML = "Request";
             but.querySelector(".button_image").src = "./images/Right arrow.svg";
@@ -1027,6 +1052,14 @@ document.addEventListener("click", () => {
                 console.log("Enter 20 CHARACTERS");
             } else {
                 let button_change = document.getElementById("selected_button");
+                let button_parent = button_change.parentNode;
+                let data = textarea.value.trim() + "," + "1fj3C0p3vowY8tCrpHNa";
+
+                // UPDATE DATA TO FIRESTORE
+                db.collection('match').doc(button_parent.getAttribute("data-id")).update({
+                    pending: firebase.firestore.FieldValue.arrayUnion(data)
+                });
+
                 button_change.className = "display-withdraw";
                 button_change.querySelector("p").innerHTML = "Withdraw";
                 button_change.querySelector("img").src = "./images/withdraw.svg";
