@@ -1003,9 +1003,9 @@ document.addEventListener("click", () => {
     button_withdraw.forEach(but => {
         but.addEventListener('click', (e) => {
             // belom selesai
-            db.collection('match').doc(button_parent.getAttribute("data-id")).update({
-                pending: firebase.firestore.FieldValue.arrayRemove(data)
-            });
+            // db.collection('match').doc(button_parent.getAttribute("data-id")).update({
+            //     pending: firebase.firestore.FieldValue.arrayRemove(data)
+            // });
 
             but.className = "display-request";
             but.querySelector(".button_p").innerHTML = "Request";
