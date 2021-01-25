@@ -1185,3 +1185,19 @@ document.addEventListener("click", () => {
 //     var d = new Date();
 //     console.log(d.toLocaleTimeString());
 // }
+
+// CHECK IF A ARRAY CONTAIN A SPECIFIC STRING
+
+// let okadf = ["asdfasdfasdf asdfasdf,joseph", "asdfasdfa fasdfasdf,hello"];
+
+// let data_want_delete = "";
+
+// okadf.forEach(data => {
+//     let helloasdf = data.match(/joseph/);
+//     if (helloasdf) {
+//         data_want_delete = helloasdf.input;
+//     }
+// })
+
+// console.log(okadf.indexOf(data_want_delete));
+// console.log(data_want_delete);
