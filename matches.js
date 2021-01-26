@@ -525,20 +525,20 @@ function renderMatch(doc) {
 
 // UNCOMMENT
 
-// db.collection('match').where('sex', '==', sex_value).orderBy("date").orderBy("time").onSnapshot(snapshot => {
-//     let changes = snapshot.docChanges();
-//     changes.forEach(change => {
-//         if (change.type == "added") {
-//             // CHECK IF THE OWNER FIELD EXISTS
-//             if (change.doc.data().owner) {
-//                 renderMatch3(change.doc.data(), change.doc.id);
-//             }
-//         } else if (change.type == "removed") {
-//             let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
-//             display_container.removeChild(li);
-//         }
-//     })
-// })
+db.collection('match').where('sex', '==', sex_value).orderBy("date").orderBy("time").onSnapshot(snapshot => {
+    let changes = snapshot.docChanges();
+    changes.forEach(change => {
+        if (change.type == "added") {
+            // CHECK IF THE OWNER FIELD EXISTS
+            if (change.doc.data().owner) {
+                renderMatch3(change.doc.data(), change.doc.id);
+            }
+        } else if (change.type == "removed") {
+            let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
+            display_container.removeChild(li);
+        }
+    })
+})
 
 
 //UNTUK SCHEDULE
@@ -941,6 +941,12 @@ function renderMatch3(doc, id) {
     let buttons_leave = document.querySelectorAll(".display-leave");
     buttons_leave.forEach(but => {
         but.addEventListener('click', () => {
+            let button_parent_data_id = but.parentNode.getAttribute("data-id");
+
+            db.collection('match').doc(button_parent_data_id).update({
+                matches_join: firebase.firestore.FieldValue.arrayRemove("1fj3C0p3vowY8tCrpHNa")
+            });
+
             but.className = "display-request";
             but.querySelector(".button_p").innerHTML = "Request";
             but.querySelector(".button_image").src = "./images/Right arrow.svg";
@@ -950,6 +956,24 @@ function renderMatch3(doc, id) {
     let button_withdraw = document.querySelectorAll(".display-withdraw");
     button_withdraw.forEach(but => {
         but.addEventListener('click', () => {
+            let button_parent_data_id = but.parentNode.getAttribute("data-id");
+
+            db.collection('match').doc(button_parent_data_id).get().then(function (doc) {
+                let doc_pending = doc.data().pending;
+                let data_want_delete = "";
+
+                doc_pending.forEach(data => {
+                    let match = data.match(/1fj3C0p3vowY8tCrpHNa/);
+                    if (match) {
+                        data_want_delete = match.input;
+                    }
+                })
+
+                db.collection('match').doc(button_parent_data_id).update({
+                    pending: firebase.firestore.FieldValue.arrayRemove(data_want_delete)
+                });
+            })
+
             but.className = "display-request";
             but.querySelector(".button_p").innerHTML = "Request";
             but.querySelector(".button_image").src = "./images/Right arrow.svg";
@@ -992,6 +1016,12 @@ document.addEventListener("click", () => {
     let buttons_leave = document.querySelectorAll(".display-leave");
     buttons_leave.forEach(but => {
         but.addEventListener('click', () => {
+            let button_parent_data_id = but.parentNode.getAttribute("data-id");
+
+            db.collection('match').doc(button_parent_data_id).update({
+                matches_join: firebase.firestore.FieldValue.arrayRemove("1fj3C0p3vowY8tCrpHNa")
+            });
+
             but.className = "display-request";
             but.querySelector(".button_p").innerHTML = "Request";
             but.querySelector(".button_image").src = "./images/Right arrow.svg";
@@ -1002,10 +1032,24 @@ document.addEventListener("click", () => {
     let button_withdraw = document.querySelectorAll(".display-withdraw");
     button_withdraw.forEach(but => {
         but.addEventListener('click', (e) => {
-            // belom selesai
-            // db.collection('match').doc(button_parent.getAttribute("data-id")).update({
-            //     pending: firebase.firestore.FieldValue.arrayRemove(data)
-            // });
+            // REMOVE USER FROM PENDING
+            let button_parent_data_id = but.parentNode.getAttribute("data-id");
+
+            db.collection('match').doc(button_parent_data_id).get().then(function (doc) {
+                let doc_pending = doc.data().pending;
+                let data_want_delete = "";
+
+                doc_pending.forEach(data => {
+                    let match = data.match(/1fj3C0p3vowY8tCrpHNa/);
+                    if (match) {
+                        data_want_delete = match.input;
+                    }
+                })
+
+                db.collection('match').doc(button_parent_data_id).update({
+                    pending: firebase.firestore.FieldValue.arrayRemove(data_want_delete)
+                });
+            })
 
             but.className = "display-request";
             but.querySelector(".button_p").innerHTML = "Request";
@@ -1096,6 +1140,20 @@ document.addEventListener("click", () => {
             if (textarea.value.length < 20) {
                 console.log("Enter 20 CHARACTERS");
             } else {
+                let button_chosen = document.getElementById("selected_button");
+                let button_parent_data_id = button_chosen.parentNode.getAttribute("data-id");
+
+                // // DELETE OWNER FIELD
+                db.collection('match').doc(button_parent_data_id).set({
+                    reason: textarea.value.trim()
+                }, {
+                    merge: true
+                });
+
+                db.collection('match').doc(button_parent_data_id).update({
+                    owner: firebase.firestore.FieldValue.delete()
+                });
+
                 // REMOVE ELEMENT FROM PARENT
                 let button_selected = document.getElementById("selected_button");
                 let li_selected = button_selected.parentNode;
