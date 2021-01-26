@@ -270,7 +270,9 @@ selectedAll.forEach(selected => {
                         let changes = snapshot.docChanges();
                         changes.forEach(change => {
                             if (change.type == "added") {
-                                renderMatch3(change.doc.data());
+                                if (change.doc.data().owner) {
+                                    renderMatch3(change.doc.data(), change.doc.id);
+                                }
                             } else if (change.type == "removed") {
                                 let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
                                 display_container.removeChild(li);
@@ -287,7 +289,9 @@ selectedAll.forEach(selected => {
                         let changes = snapshot.docChanges();
                         changes.forEach(change => {
                             if (change.type == "added") {
-                                renderMatch3(change.doc.data());
+                                if (change.doc.data().owner) {
+                                    renderMatch3(change.doc.data(), change.doc.id);
+                                }
                             } else if (change.type == "removed") {
                                 let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
                                 display_container.removeChild(li);
@@ -305,7 +309,9 @@ selectedAll.forEach(selected => {
                         let changes = snapshot.docChanges();
                         changes.forEach(change => {
                             if (change.type == "added") {
-                                renderMatch3(change.doc.data());
+                                if (change.doc.data().owner) {
+                                    renderMatch3(change.doc.data(), change.doc.id);
+                                }
                             } else if (change.type == "removed") {
                                 let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
                                 display_container.removeChild(li);
@@ -324,7 +330,9 @@ selectedAll.forEach(selected => {
                         let changes = snapshot.docChanges();
                         changes.forEach(change => {
                             if (change.type == "added") {
-                                renderMatch3(change.doc.data());
+                                if (change.doc.data().owner) {
+                                    renderMatch3(change.doc.data(), change.doc.id);
+                                }
                             } else if (change.type == "removed") {
                                 let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
                                 display_container.removeChild(li);
@@ -343,7 +351,9 @@ selectedAll.forEach(selected => {
                             let changes = snapshot.docChanges();
                             changes.forEach(change => {
                                 if (change.type == "added") {
-                                    renderMatch3(change.doc.data());
+                                    if (change.doc.data().owner) {
+                                        renderMatch3(change.doc.data(), change.doc.id);
+                                    }
                                 } else if (change.type == "removed") {
                                     let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
                                     display_container.removeChild(li);
@@ -365,7 +375,9 @@ selectedAll.forEach(selected => {
                             let changes = snapshot.docChanges();
                             changes.forEach(change => {
                                 if (change.type == "added") {
-                                    renderMatch3(change.doc.data());
+                                    if (change.doc.data().owner) {
+                                        renderMatch3(change.doc.data(), change.doc.id);
+                                    }
                                 } else if (change.type == "removed") {
                                     let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
                                     display_container.removeChild(li);
@@ -561,22 +573,20 @@ function renderMatch(doc) {
 
 // UNCOMMENT
 
-// db.collection('match').where('sex', '==', sex_value).orderBy("date").orderBy("time").onSnapshot(snapshot => {
-//     let changes = snapshot.docChanges();
-//     changes.forEach(change => {
-//         if (change.type == "added") {
-//             // CHECK IF THE OWNER FIELD EXISTS
-//             if (change.doc.data().owner) {
-//                 renderMatch3(change.doc.data());
-//             } else {
-//                 console.log("there is no owner");
-//             }
-//         } else if (change.type == "removed") {
-//             let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
-//             display_container.removeChild(li);
-//         }
-//     })
-// })
+db.collection('match').where('sex', '==', sex_value).orderBy("date").orderBy("time").onSnapshot(snapshot => {
+    let changes = snapshot.docChanges();
+    changes.forEach(change => {
+        if (change.type == "added") {
+            // CHECK IF THE OWNER FIELD EXISTS
+            if (change.doc.data().owner) {
+                renderMatch3(change.doc.data(), change.doc.id);
+            }
+        } else if (change.type == "removed") {
+            let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
+            display_container.removeChild(li);
+        }
+    })
+})
 
 
 //UNTUK SCHEDULE
@@ -712,13 +722,13 @@ var ok_test8 = {
 
 let div = document.querySelector(".display-container");
 
-renderMatch3(ok_test4)
-renderMatch3(ok_test5)
-renderMatch3(ok_test6)
-renderMatch3(ok_test7)
-renderMatch3(ok_test)
-renderMatch3(ok_test3)
-renderMatch3(ok_test2)
+// renderMatch3(ok_test4)
+// renderMatch3(ok_test5)
+// renderMatch3(ok_test6)
+// renderMatch3(ok_test7)
+// renderMatch3(ok_test)
+// renderMatch3(ok_test3)
+// renderMatch3(ok_test2)
 
 function sortDiv() {
     var div, i, switching, b, shouldSwitch;
@@ -760,7 +770,7 @@ function sortDiv() {
     }
 }
 
-function renderMatch3(doc, join, pending) {
+function renderMatch3(doc, id) {
     //MAIN DIV
     let display_content_per_date = document.createElement('div');
     display_content_per_date.className = "display-content-per-date";
@@ -817,7 +827,7 @@ function renderMatch3(doc, join, pending) {
 
     img.src = "./images/group.svg";
     display_title.innerHTML = doc.event_name;
-    p.innerHTML = `${doc.matches_join.length + 1} / 10`;
+    p.innerHTML = `${doc.matches_join.length + 1} / ${parseInt(doc.limit)}`;
 
     //DISPLAY BAR
     let display_bar = document.createElement('div');
@@ -857,7 +867,7 @@ function renderMatch3(doc, join, pending) {
     button.setAttribute("type", "submit");
 
     //SET ID FIREBASE KE LI
-    display_item.setAttribute("data-id", doc.id);
+    display_item.setAttribute("data-id", id);
 
     if (doc.sex == 'male') {
         display_peoplepref2.className = "display-peoplepref2 display-male2";
@@ -884,6 +894,16 @@ function renderMatch3(doc, join, pending) {
 
     // DETERMINE THE BUTTON TYPE
 
+    let doc_pending_data = doc.pending;
+    let pending_list_data = [];
+
+    doc_pending_data.forEach(data_pending => {
+        let split_data = data_pending.split(",");
+        split_data.forEach(data => {
+            pending_list_data.push(data);
+        })
+    })
+
     if (doc.owner == "1fj3C0p3vowY8tCrpHNa") {
         //owner
         button.className = "display-delete";
@@ -894,7 +914,7 @@ function renderMatch3(doc, join, pending) {
         button.className = "display-leave";
         button_p.innerHTML = "Leave";
         button_image.src = "./images/Leave.svg";
-    } else if (doc.pending.includes("1fj3C0p3vowY8tCrpHNa")) {
+    } else if (pending_list_data.includes("1fj3C0p3vowY8tCrpHNa")) {
         //withdraw
         button.className = "display-withdraw";
         button_p.innerHTML = "Withdraw";
@@ -969,6 +989,12 @@ function renderMatch3(doc, join, pending) {
     let buttons_leave = document.querySelectorAll(".display-leave");
     buttons_leave.forEach(but => {
         but.addEventListener('click', () => {
+            let button_parent_data_id = but.parentNode.getAttribute("data-id");
+
+            db.collection('match').doc(button_parent_data_id).update({
+                matches_join: firebase.firestore.FieldValue.arrayRemove("1fj3C0p3vowY8tCrpHNa")
+            });
+
             but.className = "display-request";
             but.querySelector(".button_p").innerHTML = "Request";
             but.querySelector(".button_image").src = "./images/Right arrow.svg";
@@ -978,6 +1004,24 @@ function renderMatch3(doc, join, pending) {
     let button_withdraw = document.querySelectorAll(".display-withdraw");
     button_withdraw.forEach(but => {
         but.addEventListener('click', () => {
+            let button_parent_data_id = but.parentNode.getAttribute("data-id");
+
+            db.collection('match').doc(button_parent_data_id).get().then(function (doc) {
+                let doc_pending = doc.data().pending;
+                let data_want_delete = "";
+
+                doc_pending.forEach(data => {
+                    let match = data.match(/1fj3C0p3vowY8tCrpHNa/);
+                    if (match) {
+                        data_want_delete = match.input;
+                    }
+                })
+
+                db.collection('match').doc(button_parent_data_id).update({
+                    pending: firebase.firestore.FieldValue.arrayRemove(data_want_delete)
+                });
+            })
+
             but.className = "display-request";
             but.querySelector(".button_p").innerHTML = "Request";
             but.querySelector(".button_image").src = "./images/Right arrow.svg";
@@ -996,10 +1040,10 @@ function renderMatch3(doc, join, pending) {
 
 sortDiv();
 
-function test() {
-    renderMatch3(ok_test8);
-    sortDiv();
-}
+// function test() {
+//     renderMatch3(ok_test8);
+//     sortDiv();
+// }
 
 
 document.addEventListener("click", () => {
@@ -1020,6 +1064,12 @@ document.addEventListener("click", () => {
     let buttons_leave = document.querySelectorAll(".display-leave");
     buttons_leave.forEach(but => {
         but.addEventListener('click', () => {
+            let button_parent_data_id = but.parentNode.getAttribute("data-id");
+
+            db.collection('match').doc(button_parent_data_id).update({
+                matches_join: firebase.firestore.FieldValue.arrayRemove("1fj3C0p3vowY8tCrpHNa")
+            });
+
             but.className = "display-request";
             but.querySelector(".button_p").innerHTML = "Request";
             but.querySelector(".button_image").src = "./images/Right arrow.svg";
@@ -1030,6 +1080,25 @@ document.addEventListener("click", () => {
     let button_withdraw = document.querySelectorAll(".display-withdraw");
     button_withdraw.forEach(but => {
         but.addEventListener('click', (e) => {
+            // REMOVE USER FROM PENDING
+            let button_parent_data_id = but.parentNode.getAttribute("data-id");
+
+            db.collection('match').doc(button_parent_data_id).get().then(function (doc) {
+                let doc_pending = doc.data().pending;
+                let data_want_delete = "";
+
+                doc_pending.forEach(data => {
+                    let match = data.match(/1fj3C0p3vowY8tCrpHNa/);
+                    if (match) {
+                        data_want_delete = match.input;
+                    }
+                })
+
+                db.collection('match').doc(button_parent_data_id).update({
+                    pending: firebase.firestore.FieldValue.arrayRemove(data_want_delete)
+                });
+            })
+
             but.className = "display-request";
             but.querySelector(".button_p").innerHTML = "Request";
             but.querySelector(".button_image").src = "./images/Right arrow.svg";
@@ -1075,6 +1144,14 @@ document.addEventListener("click", () => {
                 console.log("Enter 20 CHARACTERS");
             } else {
                 let button_change = document.getElementById("selected_button");
+                let button_parent = button_change.parentNode;
+                let data = textarea.value.trim() + "," + "1fj3C0p3vowY8tCrpHNa";
+
+                // UPDATE DATA TO FIRESTORE
+                db.collection('match').doc(button_parent.getAttribute("data-id")).update({
+                    pending: firebase.firestore.FieldValue.arrayUnion(data)
+                });
+
                 button_change.className = "display-withdraw";
                 button_change.querySelector("p").innerHTML = "Withdraw";
                 button_change.querySelector("img").src = "./images/withdraw.svg";
@@ -1111,6 +1188,20 @@ document.addEventListener("click", () => {
             if (textarea.value.length < 20) {
                 console.log("Enter 20 CHARACTERS");
             } else {
+                let button_chosen = document.getElementById("selected_button");
+                let button_parent_data_id = button_chosen.parentNode.getAttribute("data-id");
+
+                // // DELETE OWNER FIELD
+                db.collection('match').doc(button_parent_data_id).set({
+                    reason: textarea.value.trim()
+                }, {
+                    merge: true
+                });
+
+                db.collection('match').doc(button_parent_data_id).update({
+                    owner: firebase.firestore.FieldValue.delete()
+                });
+
                 // REMOVE ELEMENT FROM PARENT
                 let button_selected = document.getElementById("selected_button");
                 let li_selected = button_selected.parentNode;
@@ -1200,3 +1291,19 @@ document.addEventListener("click", () => {
 //     var d = new Date();
 //     console.log(d.toLocaleTimeString());
 // }
+
+// CHECK IF A ARRAY CONTAIN A SPECIFIC STRING
+
+// let okadf = ["asdfasdfasdf asdfasdf,joseph", "asdfasdfa fasdfasdf,hello"];
+
+// let data_want_delete = "";
+
+// okadf.forEach(data => {
+//     let helloasdf = data.match(/joseph/);
+//     if (helloasdf) {
+//         data_want_delete = helloasdf.input;
+//     }
+// })
+
+// console.log(okadf.indexOf(data_want_delete));
+// console.log(data_want_delete);
