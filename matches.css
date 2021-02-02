@@ -876,7 +876,7 @@ body {
 
 .modal-box {
   width: 600px;
-  height: 350px;
+  height: 370px;
   position: relative;
   left: 50%;
   top: 20%;
@@ -888,6 +888,7 @@ body {
 
   display: flex;
   flex-direction: column;
+  justify-content: space-evenly;
 }
 
 .modal-close {
@@ -950,16 +951,20 @@ body {
 
 .modal-submit {
   margin-top: 20px;
-  min-height: 40px;
-  min-width: 100px;
-  border: none;
-  border-radius: 50px;
-  color: #000b16;
+  color: #fff;
+  font-size: 15px;
   font-weight: 600;
-  text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.4);
-  align-self: center;
+  text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+  background: #ffc833;
+  border: 1px solid #ffc833;
+  box-shadow: 0px 0px 10px rgba(254, 188, 47, 0.5);
+  padding: 5px 50px;
+  border-radius: 20px;
+  border-bottom-left-radius: 7px;
+  border-top-right-radius: 7px;
   cursor: pointer;
-  transition: 0.2s;
+
+  transition: 0.3s;
 }
 
 .modal-submit:hover {
@@ -973,6 +978,8 @@ body {
 
 .modal-reason-submit {
   background: #ff3b3b;
+  border: 1px solid #ff3b3b;
+  box-shadow: 0px 0px 10px rgba(255, 62, 62, 0.5);
   color: white;
   min-width: 140px;
 }
