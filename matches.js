@@ -46,6 +46,7 @@ menuToggle.addEventListener('click', () => {
   darkBackground.classList.add('active');
 });
 
+
 function toggleFilter() {
     var filterToggle = document.querySelector('.filter-trigger');
     var filter = document.querySelector('.filter');
@@ -722,13 +723,13 @@ var ok_test8 = {
 
 let div = document.querySelector(".display-container");
 
-// renderMatch3(ok_test4)
-// renderMatch3(ok_test5)
-// renderMatch3(ok_test6)
-// renderMatch3(ok_test7)
-// renderMatch3(ok_test)
-// renderMatch3(ok_test3)
-// renderMatch3(ok_test2)
+renderMatch3(ok_test4)
+renderMatch3(ok_test5)
+renderMatch3(ok_test6)
+renderMatch3(ok_test7)
+renderMatch3(ok_test)
+renderMatch3(ok_test3)
+renderMatch3(ok_test2)
 
 function sortDiv() {
     var div, i, switching, b, shouldSwitch;
