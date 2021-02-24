@@ -34,7 +34,7 @@
        //         document.querySelector(".request-application").style.display = 'none';
        //     });
 
-        function toggleMenu() {
+       function toggleMenu() {
            var menuToggle = document.querySelector('.toggle');
            var navigation = document.querySelector('.navigation');
            menuToggle.classList.toggle('active');
@@ -1246,10 +1246,16 @@
                        let button_parent = button_change.parentNode;
                        let data = textarea.value.trim() + "," + "1fj3C0p3vowY8tCrpHNa";
 
+                       // GET THE NEW VALUE OF PLAYERS (buat chat)
+                       let amountPlayers = button_parent.querySelector('.display-amount').querySelector('p').innerHTML;
+                       let numOfPlayers = parseInt(amountPlayers.split('/')[0]) + 1;
+                       console.log(numOfPlayers);
+                       
+
                        // UPDATE DATA TO FIRESTORE
-                       db.collection('match').doc(button_parent.getAttribute("data-id")).update({
-                           pending: firebase.firestore.FieldValue.arrayUnion(data)
-                       });
+                    //    db.collection('match').doc(button_parent.getAttribute("data-id")).update({
+                    //        pending: firebase.firestore.FieldValue.arrayUnion(data)
+                    //    });
 
                        button_change.className = "display-withdraw";
                        button_change.querySelector("p").innerHTML = "Withdraw";
