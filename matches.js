@@ -34,12 +34,41 @@ db.settings({
 //         document.querySelector(".request-application").style.display = 'none';
 //     });
 
-function toggleMenu() {
-    var menuToggle = document.querySelector('.toggle');
-    var navigation = document.querySelector('.navigation');
-    menuToggle.classList.toggle('active');
-    navigation.classList.toggle('active');
-}
+// HEADER BEHAVIOR
+let menuToggle = document.querySelector('.navigation-toggle');
+let rightTab = document.querySelector('.right-header-tab');
+let darkBackground = document.querySelector('.dark-background');
+
+let headerLogo = document.querySelector('.header-logo');
+let leftTab = document.querySelector('.left-header-tab');
+
+headerLogo.addEventListener('click', () => {
+  if (leftTab.classList.contains('active')) {
+    leftTab.classList.remove('active');
+    darkBackground.classList.remove('active');
+    headerLogo.classList.remove('active');
+    rightTab.classList.remove('active');
+  }
+  else {
+    leftTab.classList.add('active');
+    darkBackground.classList.add('active');
+    headerLogo.classList.add('active');
+  }
+});
+
+darkBackground.addEventListener('click', () => {
+  leftTab.classList.remove('active');
+  darkBackground.classList.remove('active');
+  headerLogo.classList.remove('active');
+
+  rightTab.classList.remove('active');
+});
+
+menuToggle.addEventListener('click', () => {
+  rightTab.classList.add('active');
+  darkBackground.classList.add('active');
+});
+
 
 function toggleFilter() {
     var filterToggle = document.querySelector('.filter-trigger');
@@ -47,6 +76,26 @@ function toggleFilter() {
     filterToggle.classList.toggle('active');
     filter.classList.toggle('active');
 }
+
+// ERRORS
+let error = document.querySelector(".error");
+let error_text = document.querySelector(".error-text");
+let errorClose = document.querySelectorAll('.error-circle');
+let errorBox = document.querySelectorAll('.error');
+
+for (let i = 0; i < errorClose.length; i++) {
+    errorClose[i].addEventListener('click', () => {
+        errorBox[i].style.display = "none";
+    });
+}
+
+// errorClose.addEventListener('click', () => {
+//     errorBox.style.transform = "scale(0.01)";
+//     errorBox.style.opacity = "0";
+//     if (errorBox.style.opacity === "0") {
+//         errorBox.style.display = "none";
+//     }
+// });
 
 /*
 //Date
@@ -821,13 +870,13 @@ var ok_test8 = {
 
 let div = document.querySelector(".display-container");
 
-// renderMatch3(ok_test4)
-// renderMatch3(ok_test5)
-// renderMatch3(ok_test6)
-// renderMatch3(ok_test7)
-// renderMatch3(ok_test)
-// renderMatch3(ok_test3)
-// renderMatch3(ok_test2)
+renderMatch3(ok_test4)
+renderMatch3(ok_test5)
+renderMatch3(ok_test6)
+renderMatch3(ok_test7)
+renderMatch3(ok_test)
+renderMatch3(ok_test3)
+renderMatch3(ok_test2)
 
 function sortDiv() {
     var div, i, switching, b, shouldSwitch;

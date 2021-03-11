@@ -5,23 +5,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./matches.css">
-    <title>Kebantai - Matches</title>
+    <title>Matches - Kebantai</title>
 </head>
 
 <body>
     <div class="wrapper">
-        <header>
-            <div id="logo">
-                <a href="#">KEBANTAI</a>
+        <header class="page-header">
+            <div class="dark-background"></div>
+            <div class="header-menu">
+                <div class="header-logo">KEBANTAI</div>
+                <ul class="left-header-tab">
+                    <a class="left-tab-options">
+                        <span href="#" class="left-tab-icon"><img src="./images/Header images/home.svg" alt=""></span>
+                        <p href="#" class="left-tab-name">Home</p>
+                    </a>
+                    <a class="left-tab-options">
+                        <span href="#" class="left-tab-icon"><img src="./images/Header images/why.svg" alt=""></span>
+                        <p href="#" class="left-tab-name">Why Kebantai?</p>
+                    </a>
+                    <a class="left-tab-options">
+                        <span href="#" class="left-tab-icon"><img src="./images/Header images/about.svg" alt=""></span>
+                        <p href="#" class="left-tab-name">About Us</p>
+                    </a>
+                    <a class="left-tab-options">
+                        <span href="#" class="left-tab-icon"><img src="./images/Header images/contact.svg" alt=""></span>
+                        <p href="#" class="left-tab-name">Contact</p>
+                    </a>
+                </ul>
+            </div> 
+            <div class="navigation-toggle">
+                <img class="navigation-toggle-icon" src="./images/Header images/burger-icon.svg" alt="">
             </div>
-            <div class="toggle" onclick="toggleMenu();"></div>
-            <ul class="navigation">
-                <li><a href="#">POST REQUESTS</a></li>
-                <li><a href="#" class="active-page">MATCHES</a></li>
-                <li><a href="#">SCHEDULE</a></li>
-                <li><a href="#">CHATROOM</a></li>
-                <li><a href="#">PROFILE</a></li>
-            </ul>
+            <div class="navigation right-header-tab">
+                <a href="#" class="right-tab-options">
+                    <span class="right-tab-icon"><img src="./images/Header images/post.svg" alt=""></span>
+                    <p class="right-tab-name">Post Requests</p>
+                </a>
+                <a href="#" class="right-tab-options  active-page">
+                    <span class="right-tab-icon"><img src="./images/Header images/matches.svg" alt=""></span>
+                    <p class="right-tab-name">Matches</p>
+                </a>
+                <a href="#" class="right-tab-options">
+                    <span class="right-tab-icon"><img src="./images/Header images/schedule.svg" alt=""></span>
+                    <p class="right-tab-name">Schedule</p>
+                </a>
+                <a href="#" class="right-tab-options">
+                    <span class="right-tab-icon"><img src="./images/Header images/chatroom.svg" alt=""></span>
+                    <p class="right-tab-name">Chatroom</p>
+                </a>
+                <a href="#" class="right-tab-options">
+                    <span class="right-tab-icon"><img src="./images/Header images/profile.svg" alt=""></span>
+                    <p class="right-tab-name">Profile</p>
+                </a>
+            </div>
         </header>
         <div class="content">
             <div class="filter-trigger" onclick="toggleFilter();">
@@ -208,6 +244,17 @@
                         placeholder="Max 200 characters."></textarea>
                     <input type="submit" value="SUBMIT" class="modal-submit modal-application-submit">
                 </form>
+                <div class="error-section">
+                    <div class="error">
+                        <div class="error-circle">
+                            <p class="error-close">+</p>
+                        </div>
+                        <div class="error-box">
+                            <img class="error-icon" src="./images/Exclamation.svg"></img>
+                            <p class="error-text">Please enter your username</p>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="modal modal-reason">
                 <form class="modal-box" action="">
@@ -222,6 +269,17 @@
                         placeholder="Max 200 characters."></textarea>
                     <input type="submit" value="CONFIRM DELETE" class="modal-submit modal-reason-submit">
                 </form>
+                <div class="error-section">
+                    <div class="error">
+                        <div class="error-circle">
+                            <p class="error-close">+</p>
+                        </div>
+                        <div class="error-box">
+                            <img class="error-icon" src="./images/Exclamation.svg"></img>
+                            <p class="error-text">Please enter your username</p>
+                        </div>
+                    </div>
+                </div>
             </div>
             <!-- <div class="request-application">
                 <form class="application-box" action="">
