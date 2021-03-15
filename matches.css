@@ -20,7 +20,7 @@ button:focus {
 }
 
 .wrapper {
-  background: #001931;
+  background: #001427;
   min-height: 100vh;
   overflow-x: hidden;
 }
@@ -34,10 +34,6 @@ body {
   scrollbar-width: none;
 }
 
-.active-page {
-  color: #ffc833;
-}
-
 .dark-background {
   position: fixed;
   display: block;
@@ -48,7 +44,10 @@ body {
   left: 0;
   opacity: 0;
   pointer-events: none;
+  overflow-y: scroll;
+
   transition: 0.3s ease-in-out;
+
   z-index: 49;
 }
 
@@ -65,7 +64,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 25px 0px;
+  padding: 20px 0px 0px;
 }
 
 .header-menu {
@@ -80,13 +79,14 @@ body {
   font-size: 30px;
   cursor: pointer;
   transition: 0.3s ease-in-out;
-  z-index: 50;
+  z-index: 1;
 }
 
 .header-logo:hover,
 .header-logo.active {
   color: #ffc833;
   text-shadow: 0px 0px 10px rgba(254, 188, 47, 0.5);
+  z-index: 50;
 }
 
 .left-header-tab {
@@ -109,7 +109,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
-  z-index: 50;
+  z-index: 51;
 }
 
 .left-header-tab.active {
@@ -167,6 +167,16 @@ body {
 }
 
 .left-tab-icon:hover + .left-tab-name {
+  opacity: 1;
+  padding: 7px 30px;
+}
+
+.left-tab-options.active .left-tab-icon {
+  background: #ffc833;
+  box-shadow: 0px 0px 15px rgba(254, 188, 47, 0.5);
+}
+
+.left-tab-options.active .left-tab-icon + .left-tab-name {
   opacity: 1;
   padding: 7px 30px;
 }
@@ -256,6 +266,7 @@ body {
   display: grid;
   grid-template-columns: 0.5fr 1.5fr;
   padding: 1rem 3rem;
+  margin-top: 20px;
 }
 
 .filter-trigger {
