@@ -43,30 +43,29 @@ let headerLogo = document.querySelector('.header-logo');
 let leftTab = document.querySelector('.left-header-tab');
 
 headerLogo.addEventListener('click', () => {
-  if (leftTab.classList.contains('active')) {
-    leftTab.classList.remove('active');
-    darkBackground.classList.remove('active');
-    headerLogo.classList.remove('active');
-    rightTab.classList.remove('active');
-  }
-  else {
-    leftTab.classList.add('active');
-    darkBackground.classList.add('active');
-    headerLogo.classList.add('active');
-  }
+    if (leftTab.classList.contains('active')) {
+        leftTab.classList.remove('active');
+        darkBackground.classList.remove('active');
+        headerLogo.classList.remove('active');
+        rightTab.classList.remove('active');
+    } else {
+        leftTab.classList.add('active');
+        darkBackground.classList.add('active');
+        headerLogo.classList.add('active');
+    }
 });
 
 darkBackground.addEventListener('click', () => {
-  leftTab.classList.remove('active');
-  darkBackground.classList.remove('active');
-  headerLogo.classList.remove('active');
+    leftTab.classList.remove('active');
+    darkBackground.classList.remove('active');
+    headerLogo.classList.remove('active');
 
-  rightTab.classList.remove('active');
+    rightTab.classList.remove('active');
 });
 
 menuToggle.addEventListener('click', () => {
-  rightTab.classList.add('active');
-  darkBackground.classList.add('active');
+    rightTab.classList.add('active');
+    darkBackground.classList.add('active');
 });
 
 
