@@ -742,21 +742,6 @@ db.collection('match').where('sex', '==', sex_value).orderBy("date").orderBy("ti
 })
 
 
-//UNTUK SCHEDULE
-
-let temp_list = [];
-
-// db.collection('account').doc("1fj3C0p3vowY8tCrpHNa").get().then(function (doc) {
-//     temp_list = doc.data().matches_created_join;
-//     // console.log(temp_list);
-
-//     db.collection('match').where(firebase.firestore.FieldPath.documentId(), 'in', temp_list).get().then((snapshot) => {
-//         snapshot.docs.forEach(dok => {
-//             renderMatch3(dok.data());
-//         })
-//     })
-// })
-
 var ok_test = {
     address: "jl.hello234",
     date: "Sun Dec 27 2020",
@@ -869,13 +854,13 @@ var ok_test8 = {
 
 let div = document.querySelector(".display-container");
 
-renderMatch3(ok_test4)
-renderMatch3(ok_test5)
-renderMatch3(ok_test6)
-renderMatch3(ok_test7)
-renderMatch3(ok_test)
-renderMatch3(ok_test3)
-renderMatch3(ok_test2)
+// renderMatch3(ok_test4)
+// renderMatch3(ok_test5)
+// renderMatch3(ok_test6)
+// renderMatch3(ok_test7)
+// renderMatch3(ok_test)
+// renderMatch3(ok_test3)
+// renderMatch3(ok_test2)
 
 function sortDiv() {
     var div, i, switching, b, shouldSwitch;
@@ -1045,7 +1030,7 @@ function renderMatch3(doc, id) {
     let pending_list_data = [];
 
     doc_pending_data.forEach(data_pending => {
-        let split_data = data_pending.split(",");
+        let split_data = data_pending.split("~~");
         split_data.forEach(data => {
             pending_list_data.push(data);
         })
@@ -1292,7 +1277,7 @@ document.addEventListener("click", () => {
             } else {
                 let button_change = document.getElementById("selected_button");
                 let button_parent = button_change.parentNode;
-                let data = textarea.value.trim() + "," + "1fj3C0p3vowY8tCrpHNa";
+                let data = textarea.value.trim() + "~~" + "1fj3C0p3vowY8tCrpHNa";
 
                 // GET THE NEW VALUE OF PLAYERS (buat chat)
                 let amountPlayers = button_parent.querySelector('.display-amount').querySelector('p').innerHTML;
@@ -1301,9 +1286,9 @@ document.addEventListener("click", () => {
 
 
                 // UPDATE DATA TO FIRESTORE
-                //    db.collection('match').doc(button_parent.getAttribute("data-id")).update({
-                //        pending: firebase.firestore.FieldValue.arrayUnion(data)
-                //    });
+                db.collection('match').doc(button_parent.getAttribute("data-id")).update({
+                    pending: firebase.firestore.FieldValue.arrayUnion(data)
+                });
 
                 button_change.className = "display-withdraw";
                 button_change.querySelector("p").innerHTML = "Withdraw";
