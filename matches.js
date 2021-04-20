@@ -202,6 +202,7 @@ let time_value = "";
 optionsListTime.forEach(o => {
     o.addEventListener("click", () => {
         time_value = o.querySelector("input").value;
+        console.log("ATAS", time_value);
     });
 })
 
@@ -240,6 +241,8 @@ selectedAll.forEach(selected => {
     const select_box1 = document.getElementById("select-box1");
     const select_box2 = document.getElementById("select-box2");
     const option_date = document.getElementById("option_date");
+    const date_time = document.querySelector(".date_time");
+    const date_time_error = date_time.querySelector(".error");
     let previous_word = "";
 
     selected.addEventListener("click", () => {
@@ -280,11 +283,16 @@ selectedAll.forEach(selected => {
 
     optionsList.forEach(o => {
         o.addEventListener("click", () => {
-            selected.innerHTML = o.querySelector("label").innerHTML;
-            optionsContainer.classList.remove("active");
+            // selected.innerHTML = o.querySelector("label").innerHTML;
+            // optionsContainer.classList.remove("active");
             if (previous_word != o.querySelector("label").innerHTML) {
                 if (sport_value == "all sport") {
                     if (selected_date.innerHTML == "All Date" && selected_region.innerHTML == "All Region") {
+                        selected.innerHTML = o.querySelector("label").innerHTML;
+                        optionsContainer.classList.remove("active");
+
+                        console.log("ACTIVATED 1");
+
                         var child = display_container.lastElementChild;
                         while (child) {
                             display_container.removeChild(child);
@@ -304,6 +312,11 @@ selectedAll.forEach(selected => {
                             })
                         })
                     } else if (selected_date.innerHTML == "All Date" && selected_region.innerHTML != "All Region") {
+                        selected.innerHTML = o.querySelector("label").innerHTML;
+                        optionsContainer.classList.remove("active");
+
+                        console.log("ACTIVATED 1");
+
                         var child = display_container.lastElementChild;
                         while (child) {
                             display_container.removeChild(child);
@@ -322,8 +335,12 @@ selectedAll.forEach(selected => {
                                 }
                             })
                         })
+                    } else if (selected_date.innerHTML != "All Date" && date_value == "all time" && selected_region.innerHTML == "All Region") {
+                        selected.innerHTML = o.querySelector("label").innerHTML;
+                        optionsContainer.classList.remove("active");
 
-                    } else if (selected_date.innerHTML != "All Date" && selected_time.innerHTML == "All Time" && selected_region.innerHTML == "All Region") {
+                        console.log("ACTIVATED 3");
+
                         var child = display_container.lastElementChild;
                         while (child) {
                             display_container.removeChild(child);
@@ -343,7 +360,12 @@ selectedAll.forEach(selected => {
                             })
                         })
 
-                    } else if (selected_date.innerHTML != "All Date" && selected_time.innerHTML == "All Time" && selected_region.innerHTML != "All Region") {
+                    } else if (selected_date.innerHTML != "All Date" && date_value == "all time" && selected_region.innerHTML != "All Region") {
+                        selected.innerHTML = o.querySelector("label").innerHTML;
+                        optionsContainer.classList.remove("active");
+
+                        console.log("ACTIVATED 4");
+
                         var child = display_container.lastElementChild;
                         while (child) {
                             display_container.removeChild(child);
@@ -362,9 +384,14 @@ selectedAll.forEach(selected => {
                                 }
                             })
                         })
-                    } else if (selected_date.innerHTML != "All Date" && selected_time.innerHTML != "All Time" && selected_region.innerHTML == "All Region") {
+                    } else if (selected_date.innerHTML != "All Date" && date_value != "all time" && selected_region.innerHTML == "All Region") {
+                        // console.log("asdfasdfa", asdfasdfa);
                         let check_hour = hour_check(date_value, time_value);
+                        console.log("date_value and check_hour", time_value, check_hour);
                         if (check_hour) {
+                            selected.innerHTML = o.querySelector("label").innerHTML;
+                            optionsContainer.classList.remove("active");
+
                             var child = display_container.lastElementChild;
                             while (child) {
                                 display_container.removeChild(child);
@@ -384,11 +411,18 @@ selectedAll.forEach(selected => {
                                 })
                             })
                         } else {
-                            alert("THE TIME HAS PASSED");
+                            date_time_error.style.display = "flex";
                         }
                     } else if (selected_date.innerHTML != "All Date" && selected_time.innerHTML != "All Time" && selected_region.innerHTML != "All Region") {
+                        // console.log("0.query ", o.querySelector("input").value);
                         let check_hour = hour_check(date_value, time_value);
+                        console.log("BAWAH");
+                        // let check_hour = hour_check(date_value, o.querySelector("input").value);
+                        // console.log("date_value and check_hour", time_value, check_hour);
                         if (check_hour) {
+                            selected.innerHTML = o.querySelector("label").innerHTML;
+                            optionsContainer.classList.remove("active");
+
                             var child = display_container.lastElementChild;
                             while (child) {
                                 display_container.removeChild(child);
@@ -408,7 +442,7 @@ selectedAll.forEach(selected => {
                                 })
                             })
                         } else {
-                            alert("THE TIME HAS PASSED");
+                            date_time_error.style.display = "flex";
                         }
                     }
                 } else {
@@ -513,7 +547,8 @@ selectedAll.forEach(selected => {
                                 })
                             })
                         } else {
-                            alert("THE TIME HAS PASSED");
+                            date_time_error.style.display = "flex";
+                            // alert("THE TIME HAS PASSED");
                         }
                     } else if (selected_date.innerHTML != "All Date" && selected_time.innerHTML != "All Time" && selected_region.innerHTML != "All Region") {
                         let check_hour = hour_check(date_value, time_value);
@@ -537,7 +572,8 @@ selectedAll.forEach(selected => {
                                 })
                             })
                         } else {
-                            alert("THE TIME HAS PASSED");
+                            date_time_error.style.display = "flex";
+                            // alert("THE TIME HAS PASSED");
                         }
                     }
                 }
@@ -854,13 +890,13 @@ var ok_test8 = {
 
 let div = document.querySelector(".display-container");
 
-renderMatch3(ok_test4)
-renderMatch3(ok_test5)
-renderMatch3(ok_test6)
-renderMatch3(ok_test7)
-renderMatch3(ok_test)
-renderMatch3(ok_test3)
-renderMatch3(ok_test2)
+// renderMatch3(ok_test4)
+// renderMatch3(ok_test5)
+// renderMatch3(ok_test6)
+// renderMatch3(ok_test7)
+// renderMatch3(ok_test)
+// renderMatch3(ok_test3)
+// renderMatch3(ok_test2)
 
 function sortDiv() {
     var div, i, switching, b, shouldSwitch;
@@ -1273,7 +1309,15 @@ document.addEventListener("click", () => {
             e.preventDefault();
             let textarea = reason.parentNode.querySelector("textarea");
             if (textarea.value.length < 20) {
-                console.log("Enter 20 CHARACTERS");
+                let errorBox = document.querySelector('.error');
+
+                errorBox.style.display = "flex";
+
+                // for (let i = 0; i < errorClose.length; i++) {
+                //     errorClose[i].addEventListener('click', () => {
+                //         errorBox[i].style.display = "unset";
+                //     });
+                // }
             } else {
                 let button_change = document.getElementById("selected_button");
                 let button_parent = button_change.parentNode;

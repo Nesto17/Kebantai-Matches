@@ -785,6 +785,10 @@ body {
   margin-bottom: 4vh;
 }
 
+#date_time_error{
+  display: none;
+}
+
 .error-box {
   height: 60px;
   min-width: 380px;
