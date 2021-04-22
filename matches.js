@@ -240,7 +240,10 @@ selectedAll.forEach(selected => {
     const select_box1 = document.getElementById("select-box1");
     const select_box2 = document.getElementById("select-box2");
     const option_date = document.getElementById("option_date");
+    const date_time = document.querySelector(".date_time");
+    const date_time_error = date_time.querySelector(".error");
     let previous_word = "";
+    let previous_time = "all time";
 
     selected.addEventListener("click", () => {
         if (optionsContainer.classList.contains("active")) {
@@ -250,6 +253,7 @@ selectedAll.forEach(selected => {
 
             if (currentActive) {
                 currentActive.classList.remove("active");
+                time_value = previous_time;
             }
 
             optionsContainer.classList.add("active");
@@ -280,11 +284,17 @@ selectedAll.forEach(selected => {
 
     optionsList.forEach(o => {
         o.addEventListener("click", () => {
-            selected.innerHTML = o.querySelector("label").innerHTML;
-            optionsContainer.classList.remove("active");
+            // selected.innerHTML = o.querySelector("label").innerHTML;
+            // optionsContainer.classList.remove("active");
+            console.log("ATAS", time_value);
+            console.log("previous_time", previous_time);
             if (previous_word != o.querySelector("label").innerHTML) {
                 if (sport_value == "all sport") {
                     if (selected_date.innerHTML == "All Date" && selected_region.innerHTML == "All Region") {
+                        selected.innerHTML = o.querySelector("label").innerHTML;
+                        optionsContainer.classList.remove("active");
+                        date_time_error.style.display = "none";
+
                         var child = display_container.lastElementChild;
                         while (child) {
                             display_container.removeChild(child);
@@ -304,6 +314,10 @@ selectedAll.forEach(selected => {
                             })
                         })
                     } else if (selected_date.innerHTML == "All Date" && selected_region.innerHTML != "All Region") {
+                        selected.innerHTML = o.querySelector("label").innerHTML;
+                        optionsContainer.classList.remove("active");
+                        date_time_error.style.display = "none";
+
                         var child = display_container.lastElementChild;
                         while (child) {
                             display_container.removeChild(child);
@@ -322,8 +336,11 @@ selectedAll.forEach(selected => {
                                 }
                             })
                         })
+                    } else if (selected_date.innerHTML != "All Date" && time_value == "all time" && selected_region.innerHTML == "All Region") {
+                        selected.innerHTML = o.querySelector("label").innerHTML;
+                        optionsContainer.classList.remove("active");
+                        date_time_error.style.display = "none";
 
-                    } else if (selected_date.innerHTML != "All Date" && selected_time.innerHTML == "All Time" && selected_region.innerHTML == "All Region") {
                         var child = display_container.lastElementChild;
                         while (child) {
                             display_container.removeChild(child);
@@ -343,7 +360,11 @@ selectedAll.forEach(selected => {
                             })
                         })
 
-                    } else if (selected_date.innerHTML != "All Date" && selected_time.innerHTML == "All Time" && selected_region.innerHTML != "All Region") {
+                    } else if (selected_date.innerHTML != "All Date" && time_value == "all time" && selected_region.innerHTML != "All Region") {
+                        selected.innerHTML = o.querySelector("label").innerHTML;
+                        optionsContainer.classList.remove("active");
+                        date_time_error.style.display = "none";
+
                         var child = display_container.lastElementChild;
                         while (child) {
                             display_container.removeChild(child);
@@ -362,9 +383,13 @@ selectedAll.forEach(selected => {
                                 }
                             })
                         })
-                    } else if (selected_date.innerHTML != "All Date" && selected_time.innerHTML != "All Time" && selected_region.innerHTML == "All Region") {
+                    } else if (selected_date.innerHTML != "All Date" && time_value != "all time" && selected_region.innerHTML == "All Region") {
                         let check_hour = hour_check(date_value, time_value);
                         if (check_hour) {
+                            selected.innerHTML = o.querySelector("label").innerHTML;
+                            optionsContainer.classList.remove("active");
+                            date_time_error.style.display = "none";
+
                             var child = display_container.lastElementChild;
                             while (child) {
                                 display_container.removeChild(child);
@@ -384,11 +409,15 @@ selectedAll.forEach(selected => {
                                 })
                             })
                         } else {
-                            alert("THE TIME HAS PASSED");
+                            date_time_error.style.display = "flex";
                         }
-                    } else if (selected_date.innerHTML != "All Date" && selected_time.innerHTML != "All Time" && selected_region.innerHTML != "All Region") {
+                    } else if (selected_date.innerHTML != "All Date" && time_value != "all time" && selected_region.innerHTML != "All Region") {
                         let check_hour = hour_check(date_value, time_value);
                         if (check_hour) {
+                            selected.innerHTML = o.querySelector("label").innerHTML;
+                            optionsContainer.classList.remove("active");
+                            date_time_error.style.display = "none";
+
                             var child = display_container.lastElementChild;
                             while (child) {
                                 display_container.removeChild(child);
@@ -408,11 +437,14 @@ selectedAll.forEach(selected => {
                                 })
                             })
                         } else {
-                            alert("THE TIME HAS PASSED");
+                            date_time_error.style.display = "flex";
                         }
                     }
                 } else {
                     if (selected_date.innerHTML == "All Date" && selected_region.innerHTML == "All Region") {
+                        selected.innerHTML = o.querySelector("label").innerHTML;
+                        optionsContainer.classList.remove("active");
+
                         var child = display_container.lastElementChild;
                         while (child) {
                             display_container.removeChild(child);
@@ -432,6 +464,9 @@ selectedAll.forEach(selected => {
                             })
                         })
                     } else if (selected_date.innerHTML == "All Date" && selected_region.innerHTML != "All Region") {
+                        selected.innerHTML = o.querySelector("label").innerHTML;
+                        optionsContainer.classList.remove("active");
+
                         var child = display_container.lastElementChild;
                         while (child) {
                             display_container.removeChild(child);
@@ -451,7 +486,10 @@ selectedAll.forEach(selected => {
                             })
                         })
 
-                    } else if (selected_date.innerHTML != "All Date" && selected_time.innerHTML == "All Time" && selected_region.innerHTML == "All Region") {
+                    } else if (selected_date.innerHTML != "All Date" && time_value == "all time" && selected_region.innerHTML == "All Region") {
+                        selected.innerHTML = o.querySelector("label").innerHTML;
+                        optionsContainer.classList.remove("active");
+
                         var child = display_container.lastElementChild;
                         while (child) {
                             display_container.removeChild(child);
@@ -471,7 +509,10 @@ selectedAll.forEach(selected => {
                             })
                         })
 
-                    } else if (selected_date.innerHTML != "All Date" && selected_time.innerHTML == "All Time" && selected_region.innerHTML != "All Region") {
+                    } else if (selected_date.innerHTML != "All Date" && time_value == "all time" && selected_region.innerHTML != "All Region") {
+                        selected.innerHTML = o.querySelector("label").innerHTML;
+                        optionsContainer.classList.remove("active");
+
                         var child = display_container.lastElementChild;
                         while (child) {
                             display_container.removeChild(child);
@@ -491,9 +532,13 @@ selectedAll.forEach(selected => {
                                 }
                             })
                         })
-                    } else if (selected_date.innerHTML != "All Date" && selected_time.innerHTML != "All Time" && selected_region.innerHTML == "All Region") {
+                    } else if (selected_date.innerHTML != "All Date" && time_value != "all time" && selected_region.innerHTML == "All Region") {
                         let check_hour = hour_check(date_value, time_value);
                         if (check_hour) {
+                            selected.innerHTML = o.querySelector("label").innerHTML;
+                            optionsContainer.classList.remove("active");
+                            date_time_error.style.display = "none";
+
                             var child = display_container.lastElementChild;
                             while (child) {
                                 display_container.removeChild(child);
@@ -513,11 +558,15 @@ selectedAll.forEach(selected => {
                                 })
                             })
                         } else {
-                            alert("THE TIME HAS PASSED");
+                            date_time_error.style.display = "flex";
                         }
-                    } else if (selected_date.innerHTML != "All Date" && selected_time.innerHTML != "All Time" && selected_region.innerHTML != "All Region") {
+                    } else if (selected_date.innerHTML != "All Date" && time_value != "all time" && selected_region.innerHTML != "All Region") {
                         let check_hour = hour_check(date_value, time_value);
                         if (check_hour) {
+                            selected.innerHTML = o.querySelector("label").innerHTML;
+                            optionsContainer.classList.remove("active");
+                            date_time_error.style.display = "none";
+
                             var child = display_container.lastElementChild;
                             while (child) {
                                 display_container.removeChild(child);
@@ -537,11 +586,12 @@ selectedAll.forEach(selected => {
                                 })
                             })
                         } else {
-                            alert("THE TIME HAS PASSED");
+                            date_time_error.style.display = "flex";
                         }
                     }
                 }
                 previous_word = o.querySelector("label").innerHTML;
+                previous_time = time_value;
             }
         });
     });
@@ -1273,7 +1323,15 @@ document.addEventListener("click", () => {
             e.preventDefault();
             let textarea = reason.parentNode.querySelector("textarea");
             if (textarea.value.length < 20) {
-                console.log("Enter 20 CHARACTERS");
+                let errorBox = document.querySelector('.error');
+
+                errorBox.style.display = "flex";
+
+                // for (let i = 0; i < errorClose.length; i++) {
+                //     errorClose[i].addEventListener('click', () => {
+                //         errorBox[i].style.display = "unset";
+                //     });
+                // }
             } else {
                 let button_change = document.getElementById("selected_button");
                 let button_parent = button_change.parentNode;
