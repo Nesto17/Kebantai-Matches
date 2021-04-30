@@ -784,6 +784,8 @@ db.collection('match').where('sex', '==', sex_value).orderBy("date").orderBy("ti
             if (change.doc.data().owner) {
                 renderMatch3(change.doc.data(), change.doc.id);
             }
+        } else if (change.type === "modified") {
+            updateMatch(change.doc.data());
         } else if (change.type == "removed") {
             let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
             display_container.removeChild(li);
@@ -1218,6 +1220,22 @@ function renderMatch3(doc, id) {
                 document.querySelector(".modal-reason").style.display = 'flex';
             });
     }
+}
+
+function updateMatch(doc) {
+    // TRANSFORM DATA TO ID
+    let date_text = doc.date;
+    let date_split = date_text.split(" ");
+    let full_day = objectOfDays[date_split[0]];
+    let date_final = date_split.splice(1, 2);
+    let date_join = date_final.join(" ");
+    let id_to_find = full_day + " " + date_join + ", " + doc.time + " WIB";
+
+    // FIND THE ELEMENT TO BE MODIFIED
+    let ul_to_search = document.getElementById(id_to_find);
+    let ul_display_amount = ul_to_search.querySelector(".display-amount");
+    let display_amount_p = ul_display_amount.querySelector("p");
+    display_amount_p.innerHTML = `${doc.matches_join.length + 1} / ${parseInt(doc.limit)}`;
 }
 
 sortDiv();
