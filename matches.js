@@ -253,7 +253,7 @@ selectedAll.forEach(selected => {
 
             if (currentActive) {
                 currentActive.classList.remove("active");
-                time_value = previous_time;
+                // time_value = previous_time;
             }
 
             optionsContainer.classList.add("active");
@@ -284,13 +284,14 @@ selectedAll.forEach(selected => {
 
     optionsList.forEach(o => {
         o.addEventListener("click", () => {
+            console.log(region_value);
             // selected.innerHTML = o.querySelector("label").innerHTML;
             // optionsContainer.classList.remove("active");
-            console.log("ATAS", time_value);
-            console.log("previous_time", previous_time);
+            // console.log("ATAS", time_value);
+            // console.log("previous_time", previous_time);
             if (previous_word != o.querySelector("label").innerHTML) {
                 if (sport_value == "all sport") {
-                    if (selected_date.innerHTML == "All Date" && selected_region.innerHTML == "All Region") {
+                    if (selected_date.innerHTML == "All Date" && region_value == "all region") {
                         selected.innerHTML = o.querySelector("label").innerHTML;
                         optionsContainer.classList.remove("active");
                         date_time_error.style.display = "none";
@@ -307,13 +308,15 @@ selectedAll.forEach(selected => {
                                     if (change.doc.data().owner) {
                                         renderMatch3(change.doc.data(), change.doc.id);
                                     }
+                                } else if (change.type === "modified") {
+                                    updateMatch(change.doc.data());
                                 } else if (change.type == "removed") {
                                     let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
                                     display_container.removeChild(li);
                                 }
                             })
                         })
-                    } else if (selected_date.innerHTML == "All Date" && selected_region.innerHTML != "All Region") {
+                    } else if (selected_date.innerHTML == "All Date" && region_value != "all region") {
                         selected.innerHTML = o.querySelector("label").innerHTML;
                         optionsContainer.classList.remove("active");
                         date_time_error.style.display = "none";
@@ -330,13 +333,15 @@ selectedAll.forEach(selected => {
                                     if (change.doc.data().owner) {
                                         renderMatch3(change.doc.data(), change.doc.id);
                                     }
+                                } else if (change.type === "modified") {
+                                    updateMatch(change.doc.data());
                                 } else if (change.type == "removed") {
                                     let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
                                     display_container.removeChild(li);
                                 }
                             })
                         })
-                    } else if (selected_date.innerHTML != "All Date" && time_value == "all time" && selected_region.innerHTML == "All Region") {
+                    } else if (selected_date.innerHTML != "All Date" && time_value == "all time" && region_value == "all region") {
                         selected.innerHTML = o.querySelector("label").innerHTML;
                         optionsContainer.classList.remove("active");
                         date_time_error.style.display = "none";
@@ -353,6 +358,8 @@ selectedAll.forEach(selected => {
                                     if (change.doc.data().owner) {
                                         renderMatch3(change.doc.data(), change.doc.id);
                                     }
+                                } else if (change.type === "modified") {
+                                    updateMatch(change.doc.data());
                                 } else if (change.type == "removed") {
                                     let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
                                     display_container.removeChild(li);
@@ -360,7 +367,7 @@ selectedAll.forEach(selected => {
                             })
                         })
 
-                    } else if (selected_date.innerHTML != "All Date" && time_value == "all time" && selected_region.innerHTML != "All Region") {
+                    } else if (selected_date.innerHTML != "All Date" && time_value == "all time" && region_value != "all region") {
                         selected.innerHTML = o.querySelector("label").innerHTML;
                         optionsContainer.classList.remove("active");
                         date_time_error.style.display = "none";
@@ -377,13 +384,15 @@ selectedAll.forEach(selected => {
                                     if (change.doc.data().owner) {
                                         renderMatch3(change.doc.data(), change.doc.id);
                                     }
+                                } else if (change.type === "modified") {
+                                    updateMatch(change.doc.data());
                                 } else if (change.type == "removed") {
                                     let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
                                     display_container.removeChild(li);
                                 }
                             })
                         })
-                    } else if (selected_date.innerHTML != "All Date" && time_value != "all time" && selected_region.innerHTML == "All Region") {
+                    } else if (selected_date.innerHTML != "All Date" && time_value != "all time" && region_value == "all region") {
                         let check_hour = hour_check(date_value, time_value);
                         if (check_hour) {
                             selected.innerHTML = o.querySelector("label").innerHTML;
@@ -402,6 +411,8 @@ selectedAll.forEach(selected => {
                                         if (change.doc.data().owner) {
                                             renderMatch3(change.doc.data(), change.doc.id);
                                         }
+                                    } else if (change.type === "modified") {
+                                        updateMatch(change.doc.data());
                                     } else if (change.type == "removed") {
                                         let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
                                         display_container.removeChild(li);
@@ -411,7 +422,7 @@ selectedAll.forEach(selected => {
                         } else {
                             date_time_error.style.display = "flex";
                         }
-                    } else if (selected_date.innerHTML != "All Date" && time_value != "all time" && selected_region.innerHTML != "All Region") {
+                    } else if (selected_date.innerHTML != "All Date" && time_value != "all time" && region_value != "all region") {
                         let check_hour = hour_check(date_value, time_value);
                         if (check_hour) {
                             selected.innerHTML = o.querySelector("label").innerHTML;
@@ -430,6 +441,8 @@ selectedAll.forEach(selected => {
                                         if (change.doc.data().owner) {
                                             renderMatch3(change.doc.data(), change.doc.id);
                                         }
+                                    } else if (change.type === "modified") {
+                                        updateMatch(change.doc.data());
                                     } else if (change.type == "removed") {
                                         let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
                                         display_container.removeChild(li);
@@ -441,7 +454,7 @@ selectedAll.forEach(selected => {
                         }
                     }
                 } else {
-                    if (selected_date.innerHTML == "All Date" && selected_region.innerHTML == "All Region") {
+                    if (selected_date.innerHTML == "All Date" && region_value == "all region") {
                         selected.innerHTML = o.querySelector("label").innerHTML;
                         optionsContainer.classList.remove("active");
 
@@ -457,13 +470,15 @@ selectedAll.forEach(selected => {
                                     if (change.doc.data().owner) {
                                         renderMatch3(change.doc.data(), change.doc.id);
                                     }
+                                } else if (change.type === "modified") {
+                                    updateMatch(change.doc.data());
                                 } else if (change.type == "removed") {
                                     let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
                                     display_container.removeChild(li);
                                 }
                             })
                         })
-                    } else if (selected_date.innerHTML == "All Date" && selected_region.innerHTML != "All Region") {
+                    } else if (selected_date.innerHTML == "All Date" && region_value != "all region") {
                         selected.innerHTML = o.querySelector("label").innerHTML;
                         optionsContainer.classList.remove("active");
 
@@ -479,6 +494,8 @@ selectedAll.forEach(selected => {
                                     if (change.doc.data().owner) {
                                         renderMatch3(change.doc.data(), change.doc.id);
                                     }
+                                } else if (change.type === "modified") {
+                                    updateMatch(change.doc.data());
                                 } else if (change.type == "removed") {
                                     let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
                                     display_container.removeChild(li);
@@ -486,7 +503,7 @@ selectedAll.forEach(selected => {
                             })
                         })
 
-                    } else if (selected_date.innerHTML != "All Date" && time_value == "all time" && selected_region.innerHTML == "All Region") {
+                    } else if (selected_date.innerHTML != "All Date" && time_value == "all time" && region_value == "all region") {
                         selected.innerHTML = o.querySelector("label").innerHTML;
                         optionsContainer.classList.remove("active");
 
@@ -502,6 +519,8 @@ selectedAll.forEach(selected => {
                                     if (change.doc.data().owner) {
                                         renderMatch3(change.doc.data(), change.doc.id);
                                     }
+                                } else if (change.type === "modified") {
+                                    updateMatch(change.doc.data());
                                 } else if (change.type == "removed") {
                                     let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
                                     display_container.removeChild(li);
@@ -509,7 +528,7 @@ selectedAll.forEach(selected => {
                             })
                         })
 
-                    } else if (selected_date.innerHTML != "All Date" && time_value == "all time" && selected_region.innerHTML != "All Region") {
+                    } else if (selected_date.innerHTML != "All Date" && time_value == "all time" && region_value != "all region") {
                         selected.innerHTML = o.querySelector("label").innerHTML;
                         optionsContainer.classList.remove("active");
 
@@ -526,13 +545,15 @@ selectedAll.forEach(selected => {
                                     if (change.doc.data().owner) {
                                         renderMatch3(change.doc.data(), change.doc.id);
                                     }
+                                } else if (change.type === "modified") {
+                                    updateMatch(change.doc.data());
                                 } else if (change.type == "removed") {
                                     let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
                                     display_container.removeChild(li);
                                 }
                             })
                         })
-                    } else if (selected_date.innerHTML != "All Date" && time_value != "all time" && selected_region.innerHTML == "All Region") {
+                    } else if (selected_date.innerHTML != "All Date" && time_value != "all time" && region_value == "all region") {
                         let check_hour = hour_check(date_value, time_value);
                         if (check_hour) {
                             selected.innerHTML = o.querySelector("label").innerHTML;
@@ -551,6 +572,8 @@ selectedAll.forEach(selected => {
                                         if (change.doc.data().owner) {
                                             renderMatch3(change.doc.data(), change.doc.id);
                                         }
+                                    } else if (change.type === "modified") {
+                                        updateMatch(change.doc.data());
                                     } else if (change.type == "removed") {
                                         let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
                                         display_container.removeChild(li);
@@ -560,7 +583,7 @@ selectedAll.forEach(selected => {
                         } else {
                             date_time_error.style.display = "flex";
                         }
-                    } else if (selected_date.innerHTML != "All Date" && time_value != "all time" && selected_region.innerHTML != "All Region") {
+                    } else if (selected_date.innerHTML != "All Date" && time_value != "all time" && region_value != "all region") {
                         let check_hour = hour_check(date_value, time_value);
                         if (check_hour) {
                             selected.innerHTML = o.querySelector("label").innerHTML;
@@ -579,6 +602,8 @@ selectedAll.forEach(selected => {
                                         if (change.doc.data().owner) {
                                             renderMatch3(change.doc.data(), change.doc.id);
                                         }
+                                    } else if (change.type === "modified") {
+                                        updateMatch(change.doc.data());
                                     } else if (change.type == "removed") {
                                         let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
                                         display_container.removeChild(li);
@@ -591,7 +616,7 @@ selectedAll.forEach(selected => {
                     }
                 }
                 previous_word = o.querySelector("label").innerHTML;
-                previous_time = time_value;
+                // previous_time = time_value;
             }
         });
     });
