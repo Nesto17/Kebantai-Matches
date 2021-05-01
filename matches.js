@@ -1513,7 +1513,7 @@ document.addEventListener("click", () => {
 // });
 
 
-// CHECK EVERY MINUTE
+// CHECK EVERY MINUTE (WILL PASS ONE SECOND OR PERFECT TIMING)
 
 // let current_seconds = new Date().getSeconds();
 // let difference_seconds = 60 - current_seconds;
@@ -1546,3 +1546,21 @@ document.addEventListener("click", () => {
 
 // console.log(okadf.indexOf(data_want_delete));
 // console.log(data_want_delete);
+
+//COBA GANTI WAKTU KE TIMESTAMP
+
+// let qwerty = "Tue Feb 02 2021";
+// let date_now_asdfasdf = new Date().toDateString();
+
+// console.log(date_now_asdfasdf);
+
+// if (qwerty < date_now_asdfasdf) {
+//     console.log('YES');
+// } else {
+//     console.log("no");
+// }
+
+// var myDate = "26-02-2012";
+// myDate = myDate.split("-");
+// var newDate = new Date(myDate[2], myDate[1] - 1, myDate[0]);
+// console.log(newDate.getTime());
