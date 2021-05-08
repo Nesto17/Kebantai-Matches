@@ -931,13 +931,13 @@ var ok_test8 = {
 
 let div = document.querySelector(".display-container");
 
-renderMatch3(ok_test4)
-renderMatch3(ok_test5)
-renderMatch3(ok_test6)
-renderMatch3(ok_test7)
-renderMatch3(ok_test)
-renderMatch3(ok_test3)
-renderMatch3(ok_test2)
+// renderMatch3(ok_test4)
+// renderMatch3(ok_test5)
+// renderMatch3(ok_test6)
+// renderMatch3(ok_test7)
+// renderMatch3(ok_test)
+// renderMatch3(ok_test3)
+// renderMatch3(ok_test2)
 
 function sortDiv() {
     var div, i, switching, b, shouldSwitch;
@@ -1258,18 +1258,14 @@ function updateMatch(doc) {
 
     // FIND THE ELEMENT TO BE MODIFIED
     let ul_to_search = document.getElementById(id_to_find);
-    let ul_display_amount = ul_to_search.querySelector(".display-amount");
-    let display_amount_p = ul_display_amount.querySelector("p");
-    display_amount_p.innerHTML = `${doc.matches_join.length + 1} / ${parseInt(doc.limit)}`;
+    if (ul_to_search) {
+        let ul_display_amount = ul_to_search.querySelector(".display-amount");
+        let display_amount_p = ul_display_amount.querySelector("p");
+        display_amount_p.innerHTML = `${doc.matches_join.length + 1} / ${parseInt(doc.limit)}`;
+    }
 }
 
 sortDiv();
-
-// function test() {
-//     renderMatch3(ok_test8);
-//     sortDiv();
-// }
-
 
 document.addEventListener("click", () => {
     // DISPLAY APPLICATION FOR REQUEST, DELETE, AND WITHDRAW
@@ -1502,9 +1498,9 @@ let difference_seconds = 60 - current_seconds;
 setTimeout(function () {
     var d = new Date();
     console.log(d.toLocaleTimeString());
-    var myVar = setInterval(myTimer, 60000);
+    // var myVar = setInterval(deleteChild, 60000);
 
-    // DELETE CHILD 
+    // DELETE CHILD AND CHECK IF THERE IS STILL A CHILD
     var div_top = document.querySelector(".display-container").childNodes;
     if (div_top[1]) {
         var ul_top = div_top[1].querySelector("ul");
@@ -1517,13 +1513,23 @@ setTimeout(function () {
             console.log(date_current);
             console.log("it is smaller");
             var child = ul_top.lastElementChild;
+
             // REMOVE LI
             while (child) {
+                // DELETE OWNER FIELD
+                var child_room_id = child.getAttribute("data-id");
+                console.log(child_room_id);
+                db.collection("match").doc(child_room_id).update({
+                    owner: firebase.firestore.FieldValue.delete()
+                });
+
+                // DELETE ROOM IN WEB CLIENT
                 ul_top.removeChild(child);
                 child = ul_top.lastElementChild;
             }
-            // REMOVE DIV
+            // // REMOVE DIV
             document.querySelector(".display-container").removeChild(div_top[1]);
+
         } else {
             console.log(top_on_the_list);
             console.log(date_current);
@@ -1532,11 +1538,11 @@ setTimeout(function () {
     }
 }, difference_seconds * 1000);
 
-function myTimer() {
+function deleteChild() {
     var d = new Date();
     console.log(d.toLocaleTimeString());
 
-    // DELETE CHILD AND CHECK IF THERE IS STILL 
+    // DELETE CHILD AND CHECK IF THERE IS STILL A CHILD 
     var div_top = document.querySelector(".display-container").childNodes;
     if (div_top[1]) {
         var ul_top = div_top[1].querySelector("ul");
@@ -1549,13 +1555,18 @@ function myTimer() {
             console.log(date_current);
             console.log("it is smaller");
             var child = ul_top.lastElementChild;
-            // REMOVE LI
-            while (child) {
-                ul_top.removeChild(child);
-                child = ul_top.lastElementChild;
-            }
-            // REMOVE DIV
-            document.querySelector(".display-container").removeChild(div_top[1]);
+            var child_room_id = child.getAttribute("data-id");
+            console.log(child_room_id);
+
+            // // REMOVE LI
+            // while (child) {
+            //     ul_top.removeChild(child);
+            //     child = ul_top.lastElementChild;
+            // }
+            // // REMOVE DIV
+            // document.querySelector(".display-container").removeChild(div_top[1]);
+
+
         } else {
             console.log(top_on_the_list);
             console.log(date_current);
@@ -1564,10 +1575,11 @@ function myTimer() {
     }
 }
 
+
+
 /*
 // COBA COBA
 */
-
 
 // CHECK EVERY MINUTE (WILL PASS ONE SECOND OR PERFECT TIMING)
 
@@ -1586,15 +1598,6 @@ function myTimer() {
 //     var d = new Date();
 //     console.log(d.toLocaleTimeString());
 // }
-
-
-
-
-
-
-
-
-
 /*
 // CHECK IF A ARRAY CONTAIN A SPECIFIC STRING
 */
