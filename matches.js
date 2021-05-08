@@ -931,13 +931,13 @@ var ok_test8 = {
 
 let div = document.querySelector(".display-container");
 
-// renderMatch3(ok_test4)
-// renderMatch3(ok_test5)
-// renderMatch3(ok_test6)
-// renderMatch3(ok_test7)
-// renderMatch3(ok_test)
-// renderMatch3(ok_test3)
-// renderMatch3(ok_test2)
+renderMatch3(ok_test4)
+renderMatch3(ok_test5)
+renderMatch3(ok_test6)
+renderMatch3(ok_test7)
+renderMatch3(ok_test)
+renderMatch3(ok_test3)
+renderMatch3(ok_test2)
 
 function sortDiv() {
     var div, i, switching, b, shouldSwitch;
@@ -1475,10 +1475,10 @@ document.addEventListener("click", () => {
 // var div_top = document.querySelector(".display-container").childNodes;
 // var ul_top = div_top[1].querySelector("ul");
 // var date_current = new Date();
-
 // var top_on_the_list = new Date(div_top[1].id);
 
 // if (top_on_the_list < date_current) {
+//     console.log(div_top[1].id);
 //     console.log(top_on_the_list);
 //     console.log(date_current);
 //     console.log("it is smaller");
@@ -1496,21 +1496,77 @@ document.addEventListener("click", () => {
 //     console.log("it is larger");
 // }
 
+let current_seconds = new Date().getSeconds();
+let difference_seconds = 60 - current_seconds;
+
+setTimeout(function () {
+    var d = new Date();
+    console.log(d.toLocaleTimeString());
+    var myVar = setInterval(myTimer, 60000);
+
+    // DELETE CHILD 
+    var div_top = document.querySelector(".display-container").childNodes;
+    if (div_top[1]) {
+        var ul_top = div_top[1].querySelector("ul");
+        var date_current = new Date();
+        var top_on_the_list = new Date(div_top[1].id);
+
+        if (top_on_the_list < date_current) {
+            console.log(div_top[1].id);
+            console.log(top_on_the_list);
+            console.log(date_current);
+            console.log("it is smaller");
+            var child = ul_top.lastElementChild;
+            // REMOVE LI
+            while (child) {
+                ul_top.removeChild(child);
+                child = ul_top.lastElementChild;
+            }
+            // REMOVE DIV
+            document.querySelector(".display-container").removeChild(div_top[1]);
+        } else {
+            console.log(top_on_the_list);
+            console.log(date_current);
+            console.log("it is larger");
+        }
+    }
+}, difference_seconds * 1000);
+
+function myTimer() {
+    var d = new Date();
+    console.log(d.toLocaleTimeString());
+
+    // DELETE CHILD AND CHECK IF THERE IS STILL 
+    var div_top = document.querySelector(".display-container").childNodes;
+    if (div_top[1]) {
+        var ul_top = div_top[1].querySelector("ul");
+        var date_current = new Date();
+        var top_on_the_list = new Date(div_top[1].id);
+
+        if (top_on_the_list < date_current) {
+            console.log(div_top[1].id);
+            console.log(top_on_the_list);
+            console.log(date_current);
+            console.log("it is smaller");
+            var child = ul_top.lastElementChild;
+            // REMOVE LI
+            while (child) {
+                ul_top.removeChild(child);
+                child = ul_top.lastElementChild;
+            }
+            // REMOVE DIV
+            document.querySelector(".display-container").removeChild(div_top[1]);
+        } else {
+            console.log(top_on_the_list);
+            console.log(date_current);
+            console.log("it is larger");
+        }
+    }
+}
+
 /*
 // COBA COBA
 */
-
-// db.collection('account').doc("1fj3C0p3vowY8tCrpHNa").update({
-//     matches_created_join: firebase.firestore.FieldValue.arrayUnion("test_2")
-// });
-
-// db.collection('account').doc("1fj3C0p3vowY8tCrpHNa").get().then(function (doc) {
-//     if (doc.exists) {
-//         console.log("Document data:", doc.data());
-//     }
-// }).catch(function (error) {
-//     console.log("Error getting document:", error);
-// });
 
 
 // CHECK EVERY MINUTE (WILL PASS ONE SECOND OR PERFECT TIMING)
@@ -1531,7 +1587,17 @@ document.addEventListener("click", () => {
 //     console.log(d.toLocaleTimeString());
 // }
 
+
+
+
+
+
+
+
+
+/*
 // CHECK IF A ARRAY CONTAIN A SPECIFIC STRING
+*/
 
 // let okadf = ["asdfasdfasdf asdfasdf,joseph", "asdfasdfa fasdfasdf,hello"];
 
