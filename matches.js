@@ -1285,7 +1285,6 @@ document.addEventListener("click", () => {
         })
     })
 
-
     // LEAVE
     let buttons_leave = document.querySelectorAll(".display-leave");
     buttons_leave.forEach(but => {
@@ -1487,7 +1486,6 @@ setTimeout(function () {
     var d = new Date();
     console.log(d.toLocaleTimeString());
     // var myVar = setInterval(deleteChild, 60000);
-    // var myVar2 = setInterval(deleteDocument, 60000);
 
     // DELETE DOCUMENT IN FIRESTORE
     // db.collection("match").where("status", "==", "success").get().then((querySnapshot) => {
@@ -1524,10 +1522,16 @@ setTimeout(function () {
                 var child_room_id = child.getAttribute("data-id");
                 console.log(child_room_id);
 
-                // db.collection("match").doc(child_room_id).update({
-                //     owner: firebase.firestore.FieldValue.delete(),
-                //     status: "success"
-                // });
+                // GET DATE + 2 HOURS FROM TODAY
+                let current_full_date = new Date();
+                let updatedtime = current_full_date.setHours(current_full_date.getHours() + 2);
+                let finaltime = new Date(updatedtime);
+
+                db.collection("match").doc(child_room_id).update({
+                    owner: firebase.firestore.FieldValue.delete(),
+                    status: "success",
+                    date: finaltime
+                });
 
                 // DELETE ROOM IN WEB CLIENT
                 ul_top.removeChild(child);
@@ -1606,8 +1610,7 @@ function deleteDocument() {
     // })
 }
 
-// mPostReference = dbf.getInstance().getReference().child("HIqxhtFpiZ7nAWSdASar");
-// mPostReference.removeValue();
+console.log(finaltime)
 
 /*
 // COBA COBA
