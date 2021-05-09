@@ -10,6 +10,7 @@ var firebaseConfig = {
     appId: "1:290266641346:web:85b99043fe87f7795a1c5b",
     measurementId: "G-M3H7QJBJGQ"
 };
+
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 firebase.analytics();
@@ -20,6 +21,8 @@ db.settings({
     timestampsInSnapshots: true
 });
 
+// Initialized Firebase Realtime Database
+const dbf = firebase.database();
 
 // const requests = document.querySelectorAll(".display-request")
 // for (var i = 0; i < requests.length; i++) {
@@ -1249,27 +1252,25 @@ function renderMatch3(doc, id) {
 
 function updateMatch(doc) {
     // TRANSFORM DATA TO ID
-    let date_text = doc.date;
-    let date_split = date_text.split(" ");
-    let full_day = objectOfDays[date_split[0]];
-    let date_final = date_split.splice(1, 2);
-    let date_join = date_final.join(" ");
-    let id_to_find = full_day + " " + date_join + ", " + doc.time + " WIB";
+    if (!doc.status) {
+        let date_text = doc.date;
+        let date_split = date_text.split(" ");
+        let full_day = objectOfDays[date_split[0]];
+        let date_final = date_split.splice(1, 2);
+        let date_join = date_final.join(" ");
+        let id_to_find = full_day + " " + date_join + ", " + doc.time + " WIB";
 
-    // FIND THE ELEMENT TO BE MODIFIED
-    let ul_to_search = document.getElementById(id_to_find);
-    let ul_display_amount = ul_to_search.querySelector(".display-amount");
-    let display_amount_p = ul_display_amount.querySelector("p");
-    display_amount_p.innerHTML = `${doc.matches_join.length + 1} / ${parseInt(doc.limit)}`;
+        // FIND THE ELEMENT TO BE MODIFIED
+        let ul_to_search = document.getElementById(id_to_find);
+        if (ul_to_search) {
+            let ul_display_amount = ul_to_search.querySelector(".display-amount");
+            let display_amount_p = ul_display_amount.querySelector("p");
+            display_amount_p.innerHTML = `${doc.matches_join.length + 1} / ${parseInt(doc.limit)}`;
+        }
+    }
 }
 
 sortDiv();
-
-// function test() {
-//     renderMatch3(ok_test8);
-//     sortDiv();
-// }
-
 
 document.addEventListener("click", () => {
     // DISPLAY APPLICATION FOR REQUEST, DELETE, AND WITHDRAW
@@ -1283,7 +1284,6 @@ document.addEventListener("click", () => {
             document.querySelector(".modal-application").style.display = 'flex';
         })
     })
-
 
     // LEAVE
     let buttons_leave = document.querySelectorAll(".display-leave");
@@ -1430,15 +1430,22 @@ document.addEventListener("click", () => {
                 let button_chosen = document.getElementById("selected_button");
                 let button_parent_data_id = button_chosen.parentNode.getAttribute("data-id");
 
-                // // DELETE OWNER FIELD
+                // // DELETE OWNER FIELD AND ADD STATUS FIELD
                 db.collection('match').doc(button_parent_data_id).set({
                     reason: textarea.value.trim()
                 }, {
                     merge: true
                 });
 
+                // GET DATE + 1 FROM TODAY
+                let current_full_date = new Date();
+                let updatedtime = current_full_date.setDate(current_full_date.getDate() + 1);
+                let finaltime = new Date(updatedtime);
+
                 db.collection('match').doc(button_parent_data_id).update({
-                    owner: firebase.firestore.FieldValue.delete()
+                    owner: firebase.firestore.FieldValue.delete(),
+                    status: "deleted",
+                    date: finaltime
                 });
 
                 // REMOVE ELEMENT FROM PARENT
@@ -1472,46 +1479,155 @@ document.addEventListener("click", () => {
 // CHECK TIME TO DELETE THE CHILD ON TOP OF THE LIST
 */
 
-// var div_top = document.querySelector(".display-container").childNodes;
-// var ul_top = div_top[1].querySelector("ul");
-// var date_current = new Date();
+let current_seconds = new Date().getSeconds();
+let difference_seconds = 60 - current_seconds;
 
-// var top_on_the_list = new Date(div_top[1].id);
+setTimeout(function () {
+    var d = new Date();
+    console.log(d.toLocaleTimeString());
+    // var myVar = setInterval(deleteChild, 60000);
 
-// if (top_on_the_list < date_current) {
-//     console.log(top_on_the_list);
-//     console.log(date_current);
-//     console.log("it is smaller");
-//     var child = ul_top.lastElementChild;
-//     // REMOVE LI
-//     while (child) {
-//         ul_top.removeChild(child);
-//         child = ul_top.lastElementChild;
-//     }
-//     // REMOVE DIV
-//     document.querySelector(".display-container").removeChild(div_top[1]);
-// } else {
-//     console.log(top_on_the_list);
-//     console.log(date_current);
-//     console.log("it is larger");
-// }
+    // DELETE DOCUMENT IN FIRESTORE AND REALTIME DATABASEFOR SUCCESS
+    // db.collection("match").where("status", "==", "success").get().then((querySnapshot) => {
+    //     querySnapshot.forEach((doc) => {
+    //         console.log(doc.id);
+    //         let current_time = new Date();
+
+    //         if (doc.data().date < current_time) {
+    //             dbf.ref('all_chats' + `/${doc.id}`).remove();
+    //             db.collection("match").doc(doc.id).delete().then(() => {
+    //                 console.log("Document successfully deleted!");
+    //             })
+    //         }
+    //     });
+    // })
+
+    // DELETE DOCUMENT IN FIRESTORE AND REALTIME DATABASE FOR DELETED
+    // db.collection("match").where("status", "==", "deleted").get().then((querySnapshot) => {
+    //     querySnapshot.forEach((doc) => {
+    //         console.log(doc.id);
+    //         let current_time = new Date();
+
+    //         if (doc.data().date < current_time) {
+    //             dbf.ref('all_chats' + `/${doc.id}`).remove();
+    //             db.collection("match").doc(doc.id).delete().then(() => {
+    //                 console.log("Document successfully deleted!");
+    //             })
+    //         }
+    //     });
+    // })
+
+    // DELETE CHILD AND CHECK IF THERE IS STILL A CHILD
+    var div_top = document.querySelector(".display-container").childNodes;
+    if (div_top[1]) {
+        var ul_top = div_top[1].querySelector("ul");
+        var date_current = new Date();
+        var top_on_the_list = new Date(div_top[1].id);
+
+        if (top_on_the_list < date_current) {
+            console.log(div_top[1].id);
+            console.log(top_on_the_list);
+            console.log(date_current);
+            console.log("it is smaller");
+            var child = ul_top.lastElementChild;
+
+            // REMOVE LI
+            // while (child) {
+            //     // DELETE OWNER FIELD
+            //     var child_room_id = child.getAttribute("data-id");
+            //     console.log(child_room_id);
+
+            //     // GET DATE + 2 HOURS FROM TODAY
+            //     let current_full_date = new Date();
+            //     let updatedtime = current_full_date.setHours(current_full_date.getHours() + 2);
+            //     let finaltime = new Date(updatedtime);
+
+            //     db.collection("match").doc(child_room_id).update({
+            //         owner: firebase.firestore.FieldValue.delete(),
+            //         status: "success",
+            //         date: finaltime
+            //     });
+
+            // DELETE ROOM IN WEB CLIENT
+            ul_top.removeChild(child);
+            child = ul_top.lastElementChild;
+        }
+        // // REMOVE DIV
+        document.querySelector(".display-container").removeChild(div_top[1]);
+
+    } else {
+        console.log(top_on_the_list);
+        console.log(date_current);
+        console.log("it is larger");
+    }
+}, difference_seconds * 1000);
+
+function deleteChild() {
+    var d = new Date();
+    console.log(d.toLocaleTimeString());
+
+    // DELETE CHILD AND CHECK IF THERE IS STILL A CHILD 
+    var div_top = document.querySelector(".display-container").childNodes;
+    if (div_top[1]) {
+        var ul_top = div_top[1].querySelector("ul");
+        var date_current = new Date();
+        var top_on_the_list = new Date(div_top[1].id);
+
+        if (top_on_the_list < date_current) {
+            console.log(div_top[1].id);
+            console.log(top_on_the_list);
+            console.log(date_current);
+            console.log("it is smaller");
+            var child = ul_top.lastElementChild;
+
+            // REMOVE LI
+            while (child) {
+                // DELETE OWNER FIELD
+                var child_room_id = child.getAttribute("data-id");
+                console.log(child_room_id);
+                db.collection("match").doc(child_room_id).update({
+                    owner: firebase.firestore.FieldValue.delete()
+                });
+
+                // DELETE ROOM IN WEB CLIENT
+                ul_top.removeChild(child);
+                child = ul_top.lastElementChild;
+            }
+            // // REMOVE DIV
+            document.querySelector(".display-container").removeChild(div_top[1]);
+
+        } else {
+            console.log(top_on_the_list);
+            console.log(date_current);
+            console.log("it is larger");
+        }
+    }
+}
+
+// DELETE DOCUMENT IN FIRESTORE AND REALTIME DATABASE
+function deleteDocument() {
+    var d = new Date();
+    console.log(d.toLocaleTimeString());
+
+    // db.collection("match").where("status", "==", "success").get().then((querySnapshot) => {
+    //     querySnapshot.forEach((doc) => {
+    //         console.log(doc.id);
+    //         let current_time = new Date();
+
+    //         if (doc.data().date < current_time) {
+    //             db.collection("match").doc(doc.id).delete().then(() => {
+    //                 console.log("Document successfully deleted!");
+    //             })
+    //             dbf.ref('all_chats' + `/${doc.id}`).remove();
+    //         }
+    //     });
+    // })
+}
+
 
 /*
 // COBA COBA
 */
-
-// db.collection('account').doc("1fj3C0p3vowY8tCrpHNa").update({
-//     matches_created_join: firebase.firestore.FieldValue.arrayUnion("test_2")
-// });
-
-// db.collection('account').doc("1fj3C0p3vowY8tCrpHNa").get().then(function (doc) {
-//     if (doc.exists) {
-//         console.log("Document data:", doc.data());
-//     }
-// }).catch(function (error) {
-//     console.log("Error getting document:", error);
-// });
-
 
 // CHECK EVERY MINUTE (WILL PASS ONE SECOND OR PERFECT TIMING)
 
@@ -1530,8 +1646,9 @@ document.addEventListener("click", () => {
 //     var d = new Date();
 //     console.log(d.toLocaleTimeString());
 // }
-
+/*
 // CHECK IF A ARRAY CONTAIN A SPECIFIC STRING
+*/
 
 // let okadf = ["asdfasdfasdf asdfasdf,joseph", "asdfasdfa fasdfasdf,hello"];
 
