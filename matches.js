@@ -1431,22 +1431,36 @@ document.addEventListener("click", () => {
                 let button_parent_data_id = button_chosen.parentNode.getAttribute("data-id");
 
                 // // DELETE OWNER FIELD AND ADD STATUS FIELD
-                db.collection('match').doc(button_parent_data_id).set({
-                    reason: textarea.value.trim()
-                }, {
-                    merge: true
-                });
+                // db.collection('match').doc(button_parent_data_id).set({
+                //     reason: textarea.value.trim()
+                // }, {
+                //     merge: true
+                // });
+
+                let reason = textarea.value.trim();
+                let reason_final = `***************************************************************************\n\nTHE OWNER HAS CANCELLED THE EVENT!\n\nThe owner's reason: ${reason}\n\n***************************************************************************`;
+
+                //APPEND MESSAGE TO THE DATABASE
+                dbf.ref('all_chats' + `/${button_parent_data_id}`).once('value', function (message_object) {
+                    // This index is mortant. It will help organize the chat in order
+                    var index = parseFloat(message_object.numChildren()) + 1
+                    dbf.ref('all_chats' + `/${button_parent_data_id}` + `/message_${index}`).set({
+                        name: "SYSTEM",
+                        message: `${reason_final}`,
+                        index: index
+                    })
+                })
 
                 // GET DATE + 1 FROM TODAY
                 let current_full_date = new Date();
                 let updatedtime = current_full_date.setDate(current_full_date.getDate() + 1);
                 let finaltime = new Date(updatedtime);
 
-                db.collection('match').doc(button_parent_data_id).update({
-                    owner: firebase.firestore.FieldValue.delete(),
-                    status: "deleted",
-                    date: finaltime
-                });
+                // db.collection('match').doc(button_parent_data_id).update({
+                //     owner: firebase.firestore.FieldValue.delete(),
+                //     status: "deleted",
+                //     date: finaltime
+                // });
 
                 // REMOVE ELEMENT FROM PARENT
                 let button_selected = document.getElementById("selected_button");
@@ -1487,7 +1501,7 @@ setTimeout(function () {
     console.log(d.toLocaleTimeString());
     // var myVar = setInterval(deleteChild, 60000);
 
-    // DELETE DOCUMENT IN FIRESTORE AND REALTIME DATABASEFOR SUCCESS
+    // DELETE DOCUMENT IN FIRESTORE AND REALTIME DATABASE FOR SUCCESS
     // db.collection("match").where("status", "==", "success").get().then((querySnapshot) => {
     //     querySnapshot.forEach((doc) => {
     //         console.log(doc.id);
@@ -1517,7 +1531,7 @@ setTimeout(function () {
     //     });
     // })
 
-    // DELETE CHILD AND CHECK IF THERE IS STILL A CHILD
+    //DELETE CHILD AND CHECK IF THERE IS STILL A CHILD
     var div_top = document.querySelector(".display-container").childNodes;
     if (div_top[1]) {
         var ul_top = div_top[1].querySelector("ul");
@@ -1532,28 +1546,41 @@ setTimeout(function () {
             var child = ul_top.lastElementChild;
 
             // REMOVE LI
-            // while (child) {
-            //     // DELETE OWNER FIELD
-            //     var child_room_id = child.getAttribute("data-id");
-            //     console.log(child_room_id);
+            while (child) {
+                // // DELETE OWNER FIELD
+                // var child_room_id = child.getAttribute("data-id");
+                // console.log(child_room_id);
 
-            //     // GET DATE + 2 HOURS FROM TODAY
-            //     let current_full_date = new Date();
-            //     let updatedtime = current_full_date.setHours(current_full_date.getHours() + 2);
-            //     let finaltime = new Date(updatedtime);
+                // // GET DATE + 2 HOURS FROM TODAY
+                // let current_full_date = new Date();
+                // let updatedtime = current_full_date.setHours(current_full_date.getHours() + 2);
+                // let finaltime = new Date(updatedtime);
 
-            //     db.collection("match").doc(child_room_id).update({
-            //         owner: firebase.firestore.FieldValue.delete(),
-            //         status: "success",
-            //         date: finaltime
-            //     });
+                // db.collection("match").doc(child_room_id).update({
+                //     owner: firebase.firestore.FieldValue.delete(),
+                //     status: "success",
+                //     date: finaltime
+                // });
 
-            // DELETE ROOM IN WEB CLIENT
-            ul_top.removeChild(child);
-            child = ul_top.lastElementChild;
+                // ADD MESSAGE TO THE DATABASE
+                // let room_id = child.getAttribute("data-id");
+                // dbf.ref('all_chats' + `/${room_id}`).once('value', function (message_object) {
+                //     // This index is mortant. It will help organize the chat in order
+                //     var index = parseFloat(message_object.numChildren()) + 1
+                //     dbf.ref('all_chats' + `/${room_id}` + `/message_${index}`).set({
+                //         name: "SYSTEM",
+                //         message: `***************************************************************************\n\nThank you for using our services. This chat will be deleted in 2 more hours. We hope that you have a great experience using our service!\n\n***************************************************************************`,
+                //         index: index
+                //     })
+                // })
+
+                // DELETE ROOM IN WEB CLIENT
+                ul_top.removeChild(child);
+                child = ul_top.lastElementChild;
+            }
         }
         // // REMOVE DIV
-        document.querySelector(".display-container").removeChild(div_top[1]);
+        // document.querySelector(".display-container").removeChild(div_top[1]);
 
     } else {
         console.log(top_on_the_list);
