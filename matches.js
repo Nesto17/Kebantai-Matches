@@ -823,14 +823,14 @@ db.collection('match').where('sex', '==', sex_value).orderBy("date").orderBy("ti
 
 
 var ok_test = {
-    address: "jl.hello234",
-    date: "Sun Dec 27 2020",
-    event_name: "Hello!@#",
-    location: "Orion Sport Center",
+    address: "Jl. Gatot Subroto No.72",
+    date: "Sun June 5 2020",
+    event_name: "Match Finals",
+    location: "Lapangan Bola Aldiron",
     owner: "1fj3C0p3vowY8tCrpHNa",
-    sex: "male",
-    sport: "volleyball",
-    time: "12:00",
+    sex: "anyone",
+    sport: "soccer",
+    time: "10:00",
     matches_join: ["D4T0Imix4NVhf8L0w8J3"],
     pending: ["D4T0Imix4NVhf8L0w8J3"]
 }
@@ -934,13 +934,13 @@ var ok_test8 = {
 
 let div = document.querySelector(".display-container");
 
-// renderMatch3(ok_test4)
-// renderMatch3(ok_test5)
-// renderMatch3(ok_test6)
-// renderMatch3(ok_test7)
-// renderMatch3(ok_test)
-// renderMatch3(ok_test3)
-// renderMatch3(ok_test2)
+renderMatch3(ok_test4)
+renderMatch3(ok_test5)
+renderMatch3(ok_test6)
+renderMatch3(ok_test7)
+renderMatch3(ok_test)
+renderMatch3(ok_test3)
+renderMatch3(ok_test2)
 
 function sortDiv() {
     var div, i, switching, b, shouldSwitch;
