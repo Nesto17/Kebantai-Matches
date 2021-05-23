@@ -24,19 +24,6 @@ db.settings({
 // Initialized Firebase Realtime Database
 const dbf = firebase.database();
 
-// const requests = document.querySelectorAll(".display-request")
-// for (var i = 0; i < requests.length; i++) {
-//     requests[i].addEventListener('click',
-//         function () {
-//             document.querySelector(".request-application").style.display = 'flex';
-//         });
-// }
-
-// document.querySelector(".application-close").addEventListener('click',
-//     function () {
-//         document.querySelector(".request-application").style.display = 'none';
-//     });
-
 // HEADER BEHAVIOR
 let menuToggle = document.querySelector('.navigation-toggle');
 let rightTab = document.querySelector('.right-header-tab');
@@ -90,14 +77,6 @@ for (let i = 0; i < errorClose.length; i++) {
         errorBox[i].style.display = "none";
     });
 }
-
-// errorClose.addEventListener('click', () => {
-//     errorBox.style.transform = "scale(0.01)";
-//     errorBox.style.opacity = "0";
-//     if (errorBox.style.opacity === "0") {
-//         errorBox.style.display = "none";
-//     }
-// });
 
 /*
 //Date
@@ -178,7 +157,7 @@ function hour_check(date, time) {
 }
 
 /*
-//HTML
+// HTML
 */
 const selectedAll = document.querySelectorAll(".selected");
 
@@ -802,7 +781,7 @@ function renderMatch(doc) {
 }
 
 
-// UNCOMMENT
+// TEST FUNCTION WITH DUMMY DATA
 
 db.collection('match').where('sex', '==', sex_value).orderBy("date").orderBy("time").onSnapshot(snapshot => {
     let changes = snapshot.docChanges();
@@ -942,6 +921,7 @@ let div = document.querySelector(".display-container");
 // renderMatch3(ok_test3)
 // renderMatch3(ok_test2)
 
+// SORTING FUNCTION
 function sortDiv() {
     var div, i, switching, b, shouldSwitch;
     div = document.querySelector(".display-container");
@@ -982,6 +962,7 @@ function sortDiv() {
     }
 }
 
+// FUNCTION TO RENDER ELEMENT
 function renderMatch3(doc, id) {
     //MAIN DIV
     let display_content_per_date = document.createElement('div');
@@ -1250,6 +1231,7 @@ function renderMatch3(doc, id) {
     }
 }
 
+// FUNCTION TO MODIFY ELEMENT
 function updateMatch(doc) {
     // TRANSFORM DATA TO ID
     if (!doc.status) {
@@ -1490,104 +1472,104 @@ document.addEventListener("click", () => {
 })
 
 /*
-// CHECK TIME TO DELETE THE CHILD ON TOP OF THE LIST
+// AUTOMATIC DATA DELETION FOR FIREBASE
 */
 
 let current_seconds = new Date().getSeconds();
 let difference_seconds = 60 - current_seconds;
 
-setTimeout(function () {
-    var d = new Date();
-    console.log(d.toLocaleTimeString());
-    // var myVar = setInterval(deleteChild, 60000);
+// setTimeout(function () {
+//     var d = new Date();
+//     console.log(d.toLocaleTimeString());
+//     // var myVar = setInterval(deleteChild, 60000);
 
-    // DELETE DOCUMENT IN FIRESTORE AND REALTIME DATABASE FOR SUCCESS
-    // db.collection("match").where("status", "==", "success").get().then((querySnapshot) => {
-    //     querySnapshot.forEach((doc) => {
-    //         console.log(doc.id);
-    //         let current_time = new Date();
+//     // DELETE DOCUMENT IN FIRESTORE AND REALTIME DATABASE FOR SUCCESS
+//     // db.collection("match").where("status", "==", "success").get().then((querySnapshot) => {
+//     //     querySnapshot.forEach((doc) => {
+//     //         console.log(doc.id);
+//     //         let current_time = new Date();
 
-    //         if (doc.data().date < current_time) {
-    //             dbf.ref('all_chats' + `/${doc.id}`).remove();
-    //             db.collection("match").doc(doc.id).delete().then(() => {
-    //                 console.log("Document successfully deleted!");
-    //             })
-    //         }
-    //     });
-    // })
+//     //         if (doc.data().date < current_time) {
+//     //             dbf.ref('all_chats' + `/${doc.id}`).remove();
+//     //             db.collection("match").doc(doc.id).delete().then(() => {
+//     //                 console.log("Document successfully deleted!");
+//     //             })
+//     //         }
+//     //     });
+//     // })
 
-    // DELETE DOCUMENT IN FIRESTORE AND REALTIME DATABASE FOR DELETED
-    // db.collection("match").where("status", "==", "deleted").get().then((querySnapshot) => {
-    //     querySnapshot.forEach((doc) => {
-    //         console.log(doc.id);
-    //         let current_time = new Date();
+//     // DELETE DOCUMENT IN FIRESTORE AND REALTIME DATABASE FOR DELETED
+//     // db.collection("match").where("status", "==", "deleted").get().then((querySnapshot) => {
+//     //     querySnapshot.forEach((doc) => {
+//     //         console.log(doc.id);
+//     //         let current_time = new Date();
 
-    //         if (doc.data().date < current_time) {
-    //             dbf.ref('all_chats' + `/${doc.id}`).remove();
-    //             db.collection("match").doc(doc.id).delete().then(() => {
-    //                 console.log("Document successfully deleted!");
-    //             })
-    //         }
-    //     });
-    // })
+//     //         if (doc.data().date < current_time) {
+//     //             dbf.ref('all_chats' + `/${doc.id}`).remove();
+//     //             db.collection("match").doc(doc.id).delete().then(() => {
+//     //                 console.log("Document successfully deleted!");
+//     //             })
+//     //         }
+//     //     });
+//     // })
 
-    //DELETE CHILD AND CHECK IF THERE IS STILL A CHILD
-    var div_top = document.querySelector(".display-container").childNodes;
-    if (div_top[1]) {
-        var ul_top = div_top[1].querySelector("ul");
-        var date_current = new Date();
-        var top_on_the_list = new Date(div_top[1].id);
+//     //DELETE CHILD AND CHECK IF THERE IS STILL A CHILD
+//     var div_top = document.querySelector(".display-container").childNodes;
+//     if (div_top[1]) {
+//         var ul_top = div_top[1].querySelector("ul");
+//         var date_current = new Date();
+//         var top_on_the_list = new Date(div_top[1].id);
 
-        if (top_on_the_list < date_current) {
-            console.log(div_top[1].id);
-            console.log(top_on_the_list);
-            console.log(date_current);
-            console.log("it is smaller");
-            var child = ul_top.lastElementChild;
+//         if (top_on_the_list < date_current) {
+//             console.log(div_top[1].id);
+//             console.log(top_on_the_list);
+//             console.log(date_current);
+//             console.log("it is smaller");
+//             var child = ul_top.lastElementChild;
 
-            // REMOVE LI
-            while (child) {
-                // // DELETE OWNER FIELD
-                // var child_room_id = child.getAttribute("data-id");
-                // console.log(child_room_id);
+//             // REMOVE LI
+//             while (child) {
+//                 // // DELETE OWNER FIELD
+//                 // var child_room_id = child.getAttribute("data-id");
+//                 // console.log(child_room_id);
 
-                // // GET DATE + 2 HOURS FROM TODAY
-                // let current_full_date = new Date();
-                // let updatedtime = current_full_date.setHours(current_full_date.getHours() + 2);
-                // let finaltime = new Date(updatedtime);
+//                 // // GET DATE + 2 HOURS FROM TODAY
+//                 // let current_full_date = new Date();
+//                 // let updatedtime = current_full_date.setHours(current_full_date.getHours() + 2);
+//                 // let finaltime = new Date(updatedtime);
 
-                // db.collection("match").doc(child_room_id).update({
-                //     owner: firebase.firestore.FieldValue.delete(),
-                //     status: "success",
-                //     date: finaltime
-                // });
+//                 // db.collection("match").doc(child_room_id).update({
+//                 //     owner: firebase.firestore.FieldValue.delete(),
+//                 //     status: "success",
+//                 //     date: finaltime
+//                 // });
 
-                // ADD MESSAGE TO THE DATABASE
-                // let room_id = child.getAttribute("data-id");
-                // dbf.ref('all_chats' + `/${room_id}`).once('value', function (message_object) {
-                //     // This index is mortant. It will help organize the chat in order
-                //     var index = parseFloat(message_object.numChildren()) + 1
-                //     dbf.ref('all_chats' + `/${room_id}` + `/message_${index}`).set({
-                //         name: "SYSTEM",
-                //         message: `***************************************************************************\n\nThank you for using our services. This chat will be deleted in 2 more hours. We hope that you have a great experience using our service!\n\n***************************************************************************`,
-                //         index: index
-                //     })
-                // })
+//                 // ADD MESSAGE TO THE DATABASE
+//                 // let room_id = child.getAttribute("data-id");
+//                 // dbf.ref('all_chats' + `/${room_id}`).once('value', function (message_object) {
+//                 //     // This index is mortant. It will help organize the chat in order
+//                 //     var index = parseFloat(message_object.numChildren()) + 1
+//                 //     dbf.ref('all_chats' + `/${room_id}` + `/message_${index}`).set({
+//                 //         name: "SYSTEM",
+//                 //         message: `***************************************************************************\n\nThank you for using our services. This chat will be deleted in 2 more hours. We hope that you have a great experience using our service!\n\n***************************************************************************`,
+//                 //         index: index
+//                 //     })
+//                 // })
 
-                // DELETE ROOM IN WEB CLIENT
-                ul_top.removeChild(child);
-                child = ul_top.lastElementChild;
-            }
-        }
-        // // REMOVE DIV
-        // document.querySelector(".display-container").removeChild(div_top[1]);
+//                 // DELETE ROOM IN WEB CLIENT
+//                 ul_top.removeChild(child);
+//                 child = ul_top.lastElementChild;
+//             }
+//         }
+//         // // REMOVE DIV
+//         document.querySelector(".display-container").removeChild(div_top[1]);
 
-    } else {
-        console.log(top_on_the_list);
-        console.log(date_current);
-        console.log("it is larger");
-    }
-}, difference_seconds * 1000);
+//     } else {
+//         console.log(top_on_the_list);
+//         console.log(date_current);
+//         console.log("it is larger");
+//     }
+// }, difference_seconds * 1000);
 
 function deleteChild() {
     var d = new Date();
@@ -1650,61 +1632,3 @@ function deleteDocument() {
     //     });
     // })
 }
-
-
-/*
-// COBA COBA
-*/
-
-// CHECK EVERY MINUTE (WILL PASS ONE SECOND OR PERFECT TIMING)
-
-// let current_seconds = new Date().getSeconds();
-// let difference_seconds = 60 - current_seconds;
-
-// setTimeout(function () {
-//     var d = new Date();
-//     console.log(d.toLocaleTimeString());
-//     var myVar = setInterval(myTimer, 60000);
-// }, difference_seconds * 1000);
-
-// // var myVar = setInterval(myTimer, 60000);
-
-// function myTimer() {
-//     var d = new Date();
-//     console.log(d.toLocaleTimeString());
-// }
-/*
-// CHECK IF A ARRAY CONTAIN A SPECIFIC STRING
-*/
-
-// let okadf = ["asdfasdfasdf asdfasdf,joseph", "asdfasdfa fasdfasdf,hello"];
-
-// let data_want_delete = "";
-
-// okadf.forEach(data => {
-//     let helloasdf = data.match(/joseph/);
-//     if (helloasdf) {
-//         data_want_delete = helloasdf.input;
-//     }
-// })
-
-// console.log(okadf.indexOf(data_want_delete));
-// console.log(data_want_delete);
-
-//COBA GANTI WAKTU KE TIMESTAMP
-
-// let qwerty = "Tue Feb 02 2021";
-// let date_now_asdfasdf = new Date().toDateString();
-
-// console.log(date_now_asdfasdf);
-
-// if (qwerty < date_now_asdfasdf) {
-//     console.log('YES');
-// } else {
-//     console.log("no");
-// }
-
-// var myDate = "26-02-2012";
-// myDate = myDate.split("-");
-// var newDate = new Date(myDate[2], myDate[1] - 1, myDate[0]);
-// console.log(newDate.getTime());
