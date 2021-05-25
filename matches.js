@@ -1479,98 +1479,98 @@ document.addEventListener("click", () => {
 let current_seconds = new Date().getSeconds();
 let difference_seconds = 60 - current_seconds;
 
-// setTimeout(function () {
-//     var d = new Date();
-//     console.log(d.toLocaleTimeString());
-//     // var myVar = setInterval(deleteChild, 60000);
+setTimeout(function () {
+    var d = new Date();
+    console.log(d.toLocaleTimeString());
+    // var myVar = setInterval(deleteChild, 60000);
 
-//     // DELETE DOCUMENT IN FIRESTORE AND REALTIME DATABASE FOR SUCCESS
-//     // db.collection("match").where("status", "==", "success").get().then((querySnapshot) => {
-//     //     querySnapshot.forEach((doc) => {
-//     //         console.log(doc.id);
-//     //         let current_time = new Date();
+    // DELETE DOCUMENT IN FIRESTORE AND REALTIME DATABASE FOR SUCCESS
+    // db.collection("match").where("status", "==", "success").get().then((querySnapshot) => {
+    //     querySnapshot.forEach((doc) => {
+    //         console.log(doc.id);
+    //         let current_time = new Date();
 
-//     //         if (doc.data().date < current_time) {
-//     //             dbf.ref('all_chats' + `/${doc.id}`).remove();
-//     //             db.collection("match").doc(doc.id).delete().then(() => {
-//     //                 console.log("Document successfully deleted!");
-//     //             })
-//     //         }
-//     //     });
-//     // })
+    //         if (doc.data().date < current_time) {
+    //             dbf.ref('all_chats' + `/${doc.id}`).remove();
+    //             db.collection("match").doc(doc.id).delete().then(() => {
+    //                 console.log("Document successfully deleted!");
+    //             })
+    //         }
+    //     });
+    // })
 
-//     // DELETE DOCUMENT IN FIRESTORE AND REALTIME DATABASE FOR DELETED
-//     // db.collection("match").where("status", "==", "deleted").get().then((querySnapshot) => {
-//     //     querySnapshot.forEach((doc) => {
-//     //         console.log(doc.id);
-//     //         let current_time = new Date();
+    // DELETE DOCUMENT IN FIRESTORE AND REALTIME DATABASE FOR DELETED
+    // db.collection("match").where("status", "==", "deleted").get().then((querySnapshot) => {
+    //     querySnapshot.forEach((doc) => {
+    //         console.log(doc.id);
+    //         let current_time = new Date();
 
-//     //         if (doc.data().date < current_time) {
-//     //             dbf.ref('all_chats' + `/${doc.id}`).remove();
-//     //             db.collection("match").doc(doc.id).delete().then(() => {
-//     //                 console.log("Document successfully deleted!");
-//     //             })
-//     //         }
-//     //     });
-//     // })
+    //         if (doc.data().date < current_time) {
+    //             dbf.ref('all_chats' + `/${doc.id}`).remove();
+    //             db.collection("match").doc(doc.id).delete().then(() => {
+    //                 console.log("Document successfully deleted!");
+    //             })
+    //         }
+    //     });
+    // })
 
-//     //DELETE CHILD AND CHECK IF THERE IS STILL A CHILD
-//     var div_top = document.querySelector(".display-container").childNodes;
-//     if (div_top[1]) {
-//         var ul_top = div_top[1].querySelector("ul");
-//         var date_current = new Date();
-//         var top_on_the_list = new Date(div_top[1].id);
+    //DELETE CHILD AND CHECK IF THERE IS STILL A CHILD
+    var div_top = document.querySelector(".display-container").childNodes;
+    if (div_top[1]) {
+        var ul_top = div_top[1].querySelector("ul");
+        var date_current = new Date();
+        var top_on_the_list = new Date(div_top[1].id);
 
-//         if (top_on_the_list < date_current) {
-//             console.log(div_top[1].id);
-//             console.log(top_on_the_list);
-//             console.log(date_current);
-//             console.log("it is smaller");
-//             var child = ul_top.lastElementChild;
+        if (top_on_the_list < date_current) {
+            console.log(div_top[1].id);
+            console.log(top_on_the_list);
+            console.log(date_current);
+            console.log("it is smaller");
+            var child = ul_top.lastElementChild;
 
-//             // REMOVE LI
-//             while (child) {
-//                 // // DELETE OWNER FIELD
-//                 // var child_room_id = child.getAttribute("data-id");
-//                 // console.log(child_room_id);
+            // REMOVE LI
+            while (child) {
+                // // DELETE OWNER FIELD
+                // var child_room_id = child.getAttribute("data-id");
+                // console.log(child_room_id);
 
-//                 // // GET DATE + 2 HOURS FROM TODAY
-//                 // let current_full_date = new Date();
-//                 // let updatedtime = current_full_date.setHours(current_full_date.getHours() + 2);
-//                 // let finaltime = new Date(updatedtime);
+                // // GET DATE + 2 HOURS FROM TODAY
+                // let current_full_date = new Date();
+                // let updatedtime = current_full_date.setHours(current_full_date.getHours() + 2);
+                // let finaltime = new Date(updatedtime);
 
-//                 // db.collection("match").doc(child_room_id).update({
-//                 //     owner: firebase.firestore.FieldValue.delete(),
-//                 //     status: "success",
-//                 //     date: finaltime
-//                 // });
+                // db.collection("match").doc(child_room_id).update({
+                //     owner: firebase.firestore.FieldValue.delete(),
+                //     status: "success",
+                //     date: finaltime
+                // });
 
-//                 // ADD MESSAGE TO THE DATABASE
-//                 // let room_id = child.getAttribute("data-id");
-//                 // dbf.ref('all_chats' + `/${room_id}`).once('value', function (message_object) {
-//                 //     // This index is mortant. It will help organize the chat in order
-//                 //     var index = parseFloat(message_object.numChildren()) + 1
-//                 //     dbf.ref('all_chats' + `/${room_id}` + `/message_${index}`).set({
-//                 //         name: "SYSTEM",
-//                 //         message: `***************************************************************************\n\nThank you for using our services. This chat will be deleted in 2 more hours. We hope that you have a great experience using our service!\n\n***************************************************************************`,
-//                 //         index: index
-//                 //     })
-//                 // })
+                // ADD MESSAGE TO THE DATABASE
+                // let room_id = child.getAttribute("data-id");
+                // dbf.ref('all_chats' + `/${room_id}`).once('value', function (message_object) {
+                //     // This index is mortant. It will help organize the chat in order
+                //     var index = parseFloat(message_object.numChildren()) + 1
+                //     dbf.ref('all_chats' + `/${room_id}` + `/message_${index}`).set({
+                //         name: "SYSTEM",
+                //         message: `***************************************************************************\n\nThank you for using our services. This chat will be deleted in 2 more hours. We hope that you have a great experience using our service!\n\n***************************************************************************`,
+                //         index: index
+                //     })
+                // })
 
-//                 // DELETE ROOM IN WEB CLIENT
-//                 ul_top.removeChild(child);
-//                 child = ul_top.lastElementChild;
-//             }
-//         }
-//         // // REMOVE DIV
-//         document.querySelector(".display-container").removeChild(div_top[1]);
+                // DELETE ROOM IN WEB CLIENT
+                ul_top.removeChild(child);
+                child = ul_top.lastElementChild;
+            }
+        }
+        // // REMOVE DIV
+        document.querySelector(".display-container").removeChild(div_top[1]);
 
-//     } else {
-//         console.log(top_on_the_list);
-//         console.log(date_current);
-//         console.log("it is larger");
-//     }
-// }, difference_seconds * 1000);
+    } else {
+        console.log(top_on_the_list);
+        console.log(date_current);
+        console.log("it is larger");
+    }
+}, difference_seconds * 1000);
 
 function deleteChild() {
     var d = new Date();
