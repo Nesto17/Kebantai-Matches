@@ -291,7 +291,7 @@ selectedAll.forEach(selected => {
                                         renderMatch3(change.doc.data(), change.doc.id);
                                     }
                                 } else if (change.type === "modified") {
-                                    updateMatch(change.doc.data());
+                                    updateMatch(change.doc.data(), change.doc.id);
                                 } else if (change.type == "removed") {
                                     let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
                                     display_container.removeChild(li);
@@ -316,7 +316,7 @@ selectedAll.forEach(selected => {
                                         renderMatch3(change.doc.data(), change.doc.id);
                                     }
                                 } else if (change.type === "modified") {
-                                    updateMatch(change.doc.data());
+                                    updateMatch(change.doc.data(), change.doc.id);
                                 } else if (change.type == "removed") {
                                     let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
                                     display_container.removeChild(li);
@@ -341,7 +341,7 @@ selectedAll.forEach(selected => {
                                         renderMatch3(change.doc.data(), change.doc.id);
                                     }
                                 } else if (change.type === "modified") {
-                                    updateMatch(change.doc.data());
+                                    updateMatch(change.doc.data(), change.doc.id);
                                 } else if (change.type == "removed") {
                                     let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
                                     display_container.removeChild(li);
@@ -367,7 +367,7 @@ selectedAll.forEach(selected => {
                                         renderMatch3(change.doc.data(), change.doc.id);
                                     }
                                 } else if (change.type === "modified") {
-                                    updateMatch(change.doc.data());
+                                    updateMatch(change.doc.data(), change.doc.id);
                                 } else if (change.type == "removed") {
                                     let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
                                     display_container.removeChild(li);
@@ -394,7 +394,7 @@ selectedAll.forEach(selected => {
                                             renderMatch3(change.doc.data(), change.doc.id);
                                         }
                                     } else if (change.type === "modified") {
-                                        updateMatch(change.doc.data());
+                                        updateMatch(change.doc.data(), change.doc.id);
                                     } else if (change.type == "removed") {
                                         let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
                                         display_container.removeChild(li);
@@ -424,7 +424,7 @@ selectedAll.forEach(selected => {
                                             renderMatch3(change.doc.data(), change.doc.id);
                                         }
                                     } else if (change.type === "modified") {
-                                        updateMatch(change.doc.data());
+                                        updateMatch(change.doc.data(), change.doc.id);
                                     } else if (change.type == "removed") {
                                         let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
                                         display_container.removeChild(li);
@@ -453,7 +453,7 @@ selectedAll.forEach(selected => {
                                         renderMatch3(change.doc.data(), change.doc.id);
                                     }
                                 } else if (change.type === "modified") {
-                                    updateMatch(change.doc.data());
+                                    updateMatch(change.doc.data(), change.doc.id);
                                 } else if (change.type == "removed") {
                                     let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
                                     display_container.removeChild(li);
@@ -477,7 +477,7 @@ selectedAll.forEach(selected => {
                                         renderMatch3(change.doc.data(), change.doc.id);
                                     }
                                 } else if (change.type === "modified") {
-                                    updateMatch(change.doc.data());
+                                    updateMatch(change.doc.data(), change.doc.id);
                                 } else if (change.type == "removed") {
                                     let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
                                     display_container.removeChild(li);
@@ -502,7 +502,7 @@ selectedAll.forEach(selected => {
                                         renderMatch3(change.doc.data(), change.doc.id);
                                     }
                                 } else if (change.type === "modified") {
-                                    updateMatch(change.doc.data());
+                                    updateMatch(change.doc.data(), change.doc.id);
                                 } else if (change.type == "removed") {
                                     let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
                                     display_container.removeChild(li);
@@ -528,7 +528,7 @@ selectedAll.forEach(selected => {
                                         renderMatch3(change.doc.data(), change.doc.id);
                                     }
                                 } else if (change.type === "modified") {
-                                    updateMatch(change.doc.data());
+                                    updateMatch(change.doc.data(), change.doc.id);
                                 } else if (change.type == "removed") {
                                     let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
                                     display_container.removeChild(li);
@@ -555,7 +555,7 @@ selectedAll.forEach(selected => {
                                             renderMatch3(change.doc.data(), change.doc.id);
                                         }
                                     } else if (change.type === "modified") {
-                                        updateMatch(change.doc.data());
+                                        updateMatch(change.doc.data(), change.doc.id);
                                     } else if (change.type == "removed") {
                                         let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
                                         display_container.removeChild(li);
@@ -585,7 +585,7 @@ selectedAll.forEach(selected => {
                                             renderMatch3(change.doc.data(), change.doc.id);
                                         }
                                     } else if (change.type === "modified") {
-                                        updateMatch(change.doc.data());
+                                        updateMatch(change.doc.data(), change.doc.id);
                                     } else if (change.type == "removed") {
                                         let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
                                         display_container.removeChild(li);
@@ -792,7 +792,7 @@ db.collection('match').where('sex', '==', sex_value).orderBy("date").orderBy("ti
                 renderMatch3(change.doc.data(), change.doc.id);
             }
         } else if (change.type === "modified") {
-            updateMatch(change.doc.data());
+            updateMatch(change.doc.data(), change.doc.id);
         } else if (change.type == "removed") {
             let li = display_container.querySelector('[data-id=' + change.doc.id + ']');
             display_container.removeChild(li);
@@ -1232,7 +1232,7 @@ function renderMatch3(doc, id) {
 }
 
 // FUNCTION TO MODIFY ELEMENT
-function updateMatch(doc) {
+function updateMatch(doc, id) {
     // TRANSFORM DATA TO ID
     if (!doc.status) {
         let date_text = doc.date;
@@ -1244,9 +1244,10 @@ function updateMatch(doc) {
 
         // FIND THE ELEMENT TO BE MODIFIED
         let ul_to_search = document.getElementById(id_to_find);
-        if (ul_to_search) {
-            let ul_display_amount = ul_to_search.querySelector(".display-amount");
-            let display_amount_p = ul_display_amount.querySelector("p");
+        let li_to_search = document.querySelector(`[data-id=${id}]`)
+        if (ul_to_search && li_to_search) {
+            let li_display_amount = li_to_search.querySelector(".display-amount");
+            let display_amount_p = li_display_amount.querySelector("p");
             display_amount_p.innerHTML = `${doc.matches_join.length + 1} / ${parseInt(doc.limit)}`;
         }
     }
